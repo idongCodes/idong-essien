@@ -34,14 +34,16 @@ const technologies = [
 
 export default function TechStack() {
   return (
-    // Added 'px-4 md:px-8' for edge padding
-    <section className="py-20 w-full px-4 md:px-8">
+    // Reduced padding from py-20 to py-10
+    <section className="py-10 w-full px-4 md:px-8">
       <h2 className="text-3xl font-bold text-white mb-12 text-center tracking-tight">
         Tech <span className="text-sky-blue">Stack</span>
       </h2>
 
-      {/* Added 'max-w-full' to ensure grid uses available space */}
+      {/* Grid code remains the same... */}
       <div className="w-full grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-8 justify-items-center">
+        {/* ... mapped items ... */}
+        {/* (I am omitting the long list here to save space, just keep the existing mapping code) */}
         {technologies.map((tech, index) => (
           <div 
             key={index} 

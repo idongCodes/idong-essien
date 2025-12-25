@@ -1,7 +1,7 @@
 export default function AboutSection() {
   return (
     // Reduced padding from py-20 to py-10
-    <section className="py-10 w-full border-b border-white/5">
+    <section id="about" className="py-10 w-full border-b border-white/5 scroll-mt-24">
       {/* Heading Changed */}
       <h2 className="text-3xl font-bold text-white mb-8 tracking-tight">
         About <span className="text-sky-blue">Idong</span>

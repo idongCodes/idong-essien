@@ -9,6 +9,10 @@
   --foreground: #ffffff;
 }
 
+html {
+  scroll-behavior: smooth; /* This does the magic */
+}
+
 /* Force black background on the entire document */
 html, body {
   background-color: #000000; /* Ensures no white flash/overscroll */
