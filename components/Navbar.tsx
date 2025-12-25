@@ -65,7 +65,7 @@ export default function Navbar() {
 
       {/* 2. The Drawer */}
       <div 
-        className={`fixed top-0 right-0 h-full w-1/2 bg-black/80 backdrop-blur-md border-l border-white/10 z-40 transform transition-transform duration-300 ease-in-out md:hidden pt-20 ${
+        className={`fixed top-0 right-0 h-full w-1/2 bg-black/90 backdrop-blur-sm border-l border-white/10 z-40 transform transition-transform duration-300 ease-in-out md:hidden pt-20 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
