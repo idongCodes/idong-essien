@@ -1,18 +1,19 @@
 @import "tailwindcss";
 
 @theme {
-  /* Add your custom color here */
   --color-sky-blue: #87CEEB;
 }
 
-/* Set default dark theme */
 :root {
   --background: #000000;
   --foreground: #ffffff;
 }
 
-body {
+/* Force black background on the entire document */
+html, body {
+  background-color: #000000; /* Ensures no white flash/overscroll */
   color: var(--foreground);
-  background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
 }
