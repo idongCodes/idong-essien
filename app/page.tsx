@@ -2,6 +2,7 @@ import Image from "next/image";
 import HeroContent from "@/components/HeroContent"; 
 import TechStack from "@/components/TechStack";
 import AboutSection from "@/components/AboutSection";
+import ContactSection from "@/components/ContactSection";
 
 export default function Home() {
   return (
@@ -55,6 +56,8 @@ export default function Home() {
         </div>
 
       </section>
+
+      <ContactSection />
 
     </div>
   );
