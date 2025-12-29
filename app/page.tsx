@@ -13,7 +13,7 @@ export default function Home() {
     <div className="flex flex-col">
       
       {/* --- 1. Hero Section --- */}
-      <section className="relative w-full h-[80vh] overflow-hidden bg-black">
+      <section id="hero" className="relative w-full h-[80vh] overflow-hidden bg-black">
         
         {/* Layer 1: Image */}
         <div 
