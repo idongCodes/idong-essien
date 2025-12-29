@@ -22,7 +22,8 @@ export default function Navbar() {
       
       // Find the one currently most visible in the viewport
       for (const sectionId of sections) {
-        const element = document.getElementById(sectionId === "home" ? "hero" : sectionId); // Note: You might need to add id="hero" to your hero section
+        // Note: Ensure your Hero section has id="hero" in page.tsx
+        const element = document.getElementById(sectionId === "home" ? "hero" : sectionId);
         if (element) {
           const rect = element.getBoundingClientRect();
           // If the top of the section is within the top third of the screen
