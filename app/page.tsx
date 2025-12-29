@@ -13,15 +13,18 @@ export default function Home() {
       <section className="relative w-full h-[80vh] overflow-hidden bg-black">
         
         {/* Layer 1: Image */}
-        {/* FIX: Replaced inline style object with Tailwind 'mask-image' class */}
+        {/* FIXES: 
+            1. 'mask-image': Reduced to 45% to shrink focus.
+            2. Image 'object-[50%_35%]': Shifts the image visual down slightly. 
+        */}
         <div 
-          className="absolute inset-0 w-full h-full z-0 [mask-image:radial-gradient(circle_at_center,black_0%,transparent_60%)]"
+          className="absolute inset-0 w-full h-full z-0 [mask-image:radial-gradient(circle_at_center,black_0%,transparent_45%)]"
         >
           <Image
             src="/hero.jpeg"
             alt="Hero Background"
             fill
-            className="object-cover object-center opacity-80" 
+            className="object-cover object-[50%_35%] opacity-80" 
             priority
           />
         </div>
