@@ -32,7 +32,7 @@ export default function RootLayout({
       {/* FIX: Added suppressHydrationWarning to body to prevent extension-related errors */}
       <body 
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-black text-white`}
-        suppressHydrationWarning
+        suppressHydrationWarning={true}
       >
         
         <Navbar />

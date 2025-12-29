@@ -14,32 +14,35 @@ export default function Navbar() {
   return (
     <>
       {/* --------------------------------------------------------
-          PART 1: MOBILE LOGO (Independent)
-          This sits OUTSIDE the sidebar so it can position freely 
-          at the Top-Left of the screen.
+          PART 1: MOBILE HEADER (Sticky Logo Strip)
+          - 'sticky top-0': Sticks to top but pushes content down
+          - 'w-full': Creates a dedicated row for the logo
+          - 'z-40': Sits below the Right Sidebar (z-50) but above content
       -------------------------------------------------------- */}
-      <Link 
-        href="/" 
-        onClick={scrollToTop} 
-        className="
-          /* Fixed Positioning relative to SCREEN */
-          fixed top-4 left-4 z-50
-          /* Visible on Mobile, Hidden on Desktop */
-          flex md:hidden items-center gap-2
-        "
-      >
-        <div className="relative w-10 h-10 overflow-hidden rounded-full border border-sky-blue/50 bg-black">
-          <Image 
-            src="/favicon.jpeg" 
-            alt="Logo" 
-            fill
-            className="object-cover"
-          />
-        </div>
-        <span className="font-bold text-xl tracking-tight text-white drop-shadow-md bg-black/60 rounded px-2 py-1">
-          Idong<span className="text-sky-blue">Essien</span>
-        </span>
-      </Link>
+      <header className="
+        md:hidden 
+        sticky top-0 z-40 w-full 
+        flex items-center px-4 py-3
+        bg-black/60 backdrop-blur-md border-b border-white/5
+      ">
+        <Link 
+          href="/" 
+          onClick={scrollToTop} 
+          className="flex items-center gap-2 group"
+        >
+          <div className="relative w-9 h-9 overflow-hidden rounded-full border border-sky-blue/50 bg-black">
+            <Image 
+              src="/favicon.jpeg" 
+              alt="Logo" 
+              fill
+              className="object-cover"
+            />
+          </div>
+          <span className="font-bold text-lg tracking-tight text-white drop-shadow-md">
+            Idong<span className="text-sky-blue">Essien</span>
+          </span>
+        </Link>
+      </header>
 
 
       {/* --------------------------------------------------------
@@ -49,7 +52,7 @@ export default function Navbar() {
       <nav className="
         /* --- MOBILE: RIGHT SIDEBAR --- */
         fixed top-0 right-0 h-screen w-14
-        bg-zinc-900/90 backdrop-blur-md border-l border-white/10 z-40
+        bg-zinc-900/90 backdrop-blur-md border-l border-white/10 z-50
         flex flex-col justify-center items-center py-8
         
         /* --- DESKTOP: TOP NAVBAR --- */
