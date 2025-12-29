@@ -1,4 +1,7 @@
 import Image from "next/image";
+import Link from "next/link"; // Ensure Link is imported
+import { FaChevronDown } from "react-icons/fa"; // Import the arrow icon
+
 import HeroContent from "@/components/HeroContent"; 
 import TechStack from "@/components/TechStack";
 import AboutSection from "@/components/AboutSection";
@@ -13,10 +16,6 @@ export default function Home() {
       <section className="relative w-full h-[80vh] overflow-hidden bg-black">
         
         {/* Layer 1: Image */}
-        {/* FIXES: 
-            1. 'mask-image': Reduced to 45% to shrink focus.
-            2. Image 'object-[50%_35%]': Shifts the image visual down slightly. 
-        */}
         <div 
           className="absolute inset-0 w-full h-full z-0 [mask-image:radial-gradient(circle_at_center,black_0%,transparent_45%)]"
         >
@@ -41,6 +40,19 @@ export default function Home() {
             <HeroContent />
           </div>
         </div>
+
+        {/* --- NEW: PULSATING ARROW --- */}
+        {/* Positioned absolutely at the bottom, centered horizontally */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-40 animate-bounce">
+          <Link 
+            href="#about" 
+            className="text-gray-500 hover:text-white transition-colors duration-300"
+            aria-label="Scroll to About section"
+          >
+            <FaChevronDown size={28} />
+          </Link>
+        </div>
+
       </section>
 
       {/* --- 2. Main Content Area --- */}
