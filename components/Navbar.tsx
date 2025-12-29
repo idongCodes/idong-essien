@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { FaHome, FaUser, FaBriefcase, FaEnvelope } from "react-icons/fa";
 
 export default function Navbar() {
   
@@ -14,29 +15,30 @@ export default function Navbar() {
     <nav className="
       /* --- MOBILE: RIGHT SIDEBAR CONTAINER --- */
       fixed top-0 right-0 h-screen w-14
-      bg-black border-l border-white/10 z-50
+      bg-zinc-900/90 backdrop-blur-md border-l border-white/10 z-40
       flex flex-col justify-center items-center py-8
       
-      /* --- DESKTOP: TOP NAVBAR (Resets to standard) --- */
-      md:sticky md:top-0 md:h-auto md:w-full md:border-l-0 md:border-b
-      md:flex-row md:justify-between md:py-3 md:px-6
+      /* --- DESKTOP: TOP NAVBAR (Fixed Header) --- */
+      md:fixed md:top-0 md:left-0 md:right-0 md:h-16 md:w-full 
+      md:bg-black md:border-l-0 md:border-b md:backdrop-filter-none md:z-50
+      md:flex-row md:justify-between md:py-0 md:px-6
     ">
       
-      {/* 1. LOGO */}
+      {/* 1. LOGO (Pinned Top-Left on Mobile) */}
       <Link 
         href="/" 
         onClick={scrollToTop} 
         className="
-          /* Mobile Positioning */
+          /* Mobile Positioning: Fixed Top-Left */
           fixed top-4 left-4 z-50
           
-          /* Desktop Positioning (Reset) */
+          /* Desktop Positioning: Static (Inside Navbar) */
           md:static md:z-auto
           
           flex items-center gap-2 group
         "
       >
-        <div className="relative w-10 h-10 overflow-hidden rounded-full border border-sky-blue/50">
+        <div className="relative w-10 h-10 overflow-hidden rounded-full border border-sky-blue/50 bg-black">
           <Image 
             src="/favicon.jpeg" 
             alt="Logo" 
@@ -44,60 +46,59 @@ export default function Navbar() {
             className="object-cover group-hover:scale-110 transition-transform"
           />
         </div>
-        <span className="font-bold text-xl tracking-tight text-white drop-shadow-md bg-black/50 md:bg-transparent rounded px-1">
+        <span className="font-bold text-xl tracking-tight text-white drop-shadow-md bg-black/60 md:bg-transparent rounded px-2 py-1">
           Idong<span className="text-sky-blue">Essien</span>
         </span>
       </Link>
 
-      {/* 2. NAV LINKS */}
+      {/* 2. NAV LINKS (Right Sidebar on Mobile) */}
       <div className="
-        flex items-center gap-12
-        /* Mobile: Vertical + Rotated Text */
-        flex-col-reverse
-        
-        /* Desktop: Horizontal + Normal Text */
-        md:flex-row md:gap-6
+        flex items-center gap-10
+        /* Mobile: Vertical Column */
+        flex-col
+        /* Desktop: Horizontal Row */
+        md:flex-row md:gap-8
       ">
+        
+        {/* --- HOME --- */}
         <Link 
           href="/" 
           onClick={scrollToTop} 
-          className="
-            text-sm font-medium text-gray-400 hover:text-sky-blue transition-colors
-            -rotate-90 md:rotate-0 whitespace-nowrap
-          "
+          className="group text-white md:text-gray-400 md:hover:text-sky-blue transition-colors relative"
+          title="Home"
         >
-          Home
+          <FaHome className="text-2xl md:hidden group-hover:scale-110 transition-transform drop-shadow-md" />
+          <span className="hidden md:block text-sm font-medium">Home</span>
         </Link>
         
+        {/* --- ABOUT --- */}
         <Link 
           href="#about" 
-          className="
-            text-sm font-medium text-gray-400 hover:text-sky-blue transition-colors
-            -rotate-90 md:rotate-0 whitespace-nowrap
-          "
+          className="group text-white md:text-gray-400 md:hover:text-sky-blue transition-colors relative"
+          title="About"
         >
-          About
+          <FaUser className="text-2xl md:hidden group-hover:scale-110 transition-transform drop-shadow-md" />
+          <span className="hidden md:block text-sm font-medium">About</span>
         </Link>
 
-        {/* --- NEW LINK --- */}
+        {/* --- PROJECTS --- */}
         <Link 
           href="#projects" 
-          className="
-            text-sm font-medium text-gray-400 hover:text-sky-blue transition-colors
-            -rotate-90 md:rotate-0 whitespace-nowrap
-          "
+          className="group text-white md:text-gray-400 md:hover:text-sky-blue transition-colors relative"
+          title="Projects"
         >
-          Projects
+          <FaBriefcase className="text-2xl md:hidden group-hover:scale-110 transition-transform drop-shadow-md" />
+          <span className="hidden md:block text-sm font-medium">Projects</span>
         </Link>
         
+        {/* --- CONTACT --- */}
         <Link 
           href="#contact" 
-          className="
-            text-sm font-medium text-gray-400 hover:text-sky-blue transition-colors
-            -rotate-90 md:rotate-0 whitespace-nowrap
-          "
+          className="group text-white md:text-gray-400 md:hover:text-sky-blue transition-colors relative"
+          title="Contact"
         >
-          Contact
+          <FaEnvelope className="text-2xl md:hidden group-hover:scale-110 transition-transform drop-shadow-md" />
+          <span className="hidden md:block text-sm font-medium">Contact</span>
         </Link>
       </div>
 

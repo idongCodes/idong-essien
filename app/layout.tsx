@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer"; // Ensure Footer is imported
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -29,19 +29,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-black text-white`}>
+      {/* FIX: Added suppressHydrationWarning to body to prevent extension-related errors */}
+      <body 
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-black text-white`}
+        suppressHydrationWarning
+      >
         
         <Navbar />
         
-        {/* LAYOUT ADJUSTMENT:
-           - Mobile: pr-14 (Right Padding) to make room for the sidebar.
-           - Desktop: md:pr-0 because the nav moves to the top.
-        */}
+        {/* Mobile Sidebar Padding (pr-14) | Desktop Top Bar Padding (pt-0) */}
         <main className="flex-1 w-full pr-14 md:pr-0 transition-all">
           {children}
         </main>
         
-        {/* Footer also needs padding on mobile so it doesn't touch the sidebar */}
+        {/* Footer Padding for Mobile Sidebar */}
         <div className="pr-14 md:pr-0 w-full">
           <Footer />
         </div>
