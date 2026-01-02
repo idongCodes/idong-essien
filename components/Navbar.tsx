@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-// Added FaHandshake to imports
 import { FaHome, FaUser, FaBriefcase, FaEnvelope, FaHandshake } from "react-icons/fa";
 
 export default function Navbar() {
@@ -15,12 +14,9 @@ export default function Navbar() {
     setActiveSection("home");
   };
 
-  // --- SCROLL SPY LOGIC ---
   useEffect(() => {
     const handleScroll = () => {
-      // Updated sections array to include 'work'
       const sections = ["home", "about", "work", "projects", "contact"];
-      
       for (const sectionId of sections) {
         const element = document.getElementById(sectionId === "home" ? "hero" : sectionId);
         if (element) {
@@ -39,15 +35,16 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // UPDATED: Dot now sits below the icon for the horizontal layout
   const ActiveDot = ({ section }: { section: string }) => (
     activeSection === section ? (
-      <div className="absolute -left-3 top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-white rounded-full shadow-[0_0_8px_rgba(255,255,255,0.8)] md:hidden"></div>
+      <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1 h-1 bg-sky-blue rounded-full shadow-[0_0_8px_rgba(135,206,235,0.8)] md:hidden"></div>
     ) : null
   );
 
   return (
     <>
-      {/* --- MOBILE HEADER --- */}
+      {/* MOBILE HEADER (Logo stays at top) */}
       <header className="md:hidden sticky top-0 z-40 w-full flex items-center px-4 py-3 bg-black/40 backdrop-blur-md">
         <Link href="/" onClick={scrollToTop} className="flex items-center gap-2 group">
           <div className="relative w-9 h-9 overflow-hidden rounded-full border border-sky-blue/50 bg-black">
@@ -59,19 +56,20 @@ export default function Navbar() {
         </Link>
       </header>
 
-
-      {/* --- NAVIGATION CONTAINER --- */}
+      {/* NAVIGATION BAR (Floating Bottom Pill) */}
       <nav className="
-        fixed top-0 right-0 h-screen w-14
-        bg-zinc-900/40 backdrop-blur-md z-50
-        flex flex-col justify-center items-center py-8
-        
-        md:fixed md:top-0 md:left-0 md:right-0 md:h-16 md:w-full 
-        md:bg-black md:border-b md:border-white/10 md:backdrop-filter-none md:z-50
-        md:flex-row md:justify-between md:py-0 md:px-6
+        fixed bottom-6 left-1/2 -translate-x-1/2 
+        w-[90%] max-w-[400px] h-16 
+        bg-zinc-900/90 backdrop-blur-xl border border-white/10 
+        rounded-full shadow-2xl z-50
+        flex flex-row justify-evenly items-center px-2
+
+        md:fixed md:top-0 md:left-0 md:right-0 md:h-16 md:w-full md:transform-none 
+        md:rounded-none md:border-b md:border-white/10 md:bg-black md:backdrop-filter-none 
+        md:justify-between md:px-6 md:border-t-0 md:shadow-none
       ">
         
-        {/* Desktop Logo */}
+        {/* Desktop Logo (Hidden on mobile) */}
         <Link href="/" onClick={scrollToTop} className="hidden md:flex items-center gap-2 group">
           <div className="relative w-10 h-10 overflow-hidden rounded-full border border-sky-blue/50 bg-black">
             <Image src="/favicon.jpeg" alt="Logo" fill className="object-cover group-hover:scale-110 transition-transform" />
@@ -82,56 +80,51 @@ export default function Navbar() {
         </Link>
 
         {/* Nav Links */}
-        <div className="flex items-center gap-10 flex-col md:flex-row md:gap-8">
+        <div className="flex w-full md:w-auto justify-evenly md:justify-end md:gap-8 items-center">
           
-          {/* HOME */}
           <Link 
             href="/" 
             onClick={scrollToTop} 
-            className={`group transition-colors relative ${activeSection === 'home' ? 'text-white' : 'text-gray-400 hover:text-sky-blue'}`}
+            className={`group transition-colors relative flex flex-col items-center ${activeSection === 'home' ? 'text-sky-blue' : 'text-gray-400 hover:text-white'}`}
           >
+            <FaHome className="text-2xl md:hidden group-hover:scale-110 transition-transform" />
             <ActiveDot section="home" />
-            <FaHome className="text-2xl md:hidden group-hover:scale-110 transition-transform drop-shadow-md" />
             <span className={`hidden md:block text-sm font-medium ${activeSection === 'home' ? 'text-sky-blue' : ''}`}>Home</span>
           </Link>
           
-          {/* ABOUT */}
           <Link 
             href="#about" 
-            className={`group transition-colors relative ${activeSection === 'about' ? 'text-white' : 'text-gray-400 hover:text-sky-blue'}`}
+            className={`group transition-colors relative flex flex-col items-center ${activeSection === 'about' ? 'text-sky-blue' : 'text-gray-400 hover:text-white'}`}
           >
+            <FaUser className="text-2xl md:hidden group-hover:scale-110 transition-transform" />
             <ActiveDot section="about" />
-            <FaUser className="text-2xl md:hidden group-hover:scale-110 transition-transform drop-shadow-md" />
             <span className={`hidden md:block text-sm font-medium ${activeSection === 'about' ? 'text-sky-blue' : ''}`}>About</span>
           </Link>
 
-          {/* WORK (NEW) */}
           <Link 
             href="#work" 
-            className={`group transition-colors relative ${activeSection === 'work' ? 'text-white' : 'text-gray-400 hover:text-sky-blue'}`}
+            className={`group transition-colors relative flex flex-col items-center ${activeSection === 'work' ? 'text-sky-blue' : 'text-gray-400 hover:text-white'}`}
           >
+            <FaHandshake className="text-2xl md:hidden group-hover:scale-110 transition-transform" />
             <ActiveDot section="work" />
-            <FaHandshake className="text-2xl md:hidden group-hover:scale-110 transition-transform drop-shadow-md" />
             <span className={`hidden md:block text-sm font-medium ${activeSection === 'work' ? 'text-sky-blue' : ''}`}>Work</span>
           </Link>
 
-          {/* PROJECTS */}
           <Link 
             href="#projects" 
-            className={`group transition-colors relative ${activeSection === 'projects' ? 'text-white' : 'text-gray-400 hover:text-sky-blue'}`}
+            className={`group transition-colors relative flex flex-col items-center ${activeSection === 'projects' ? 'text-sky-blue' : 'text-gray-400 hover:text-white'}`}
           >
+            <FaBriefcase className="text-2xl md:hidden group-hover:scale-110 transition-transform" />
             <ActiveDot section="projects" />
-            <FaBriefcase className="text-2xl md:hidden group-hover:scale-110 transition-transform drop-shadow-md" />
             <span className={`hidden md:block text-sm font-medium ${activeSection === 'projects' ? 'text-sky-blue' : ''}`}>Projects</span>
           </Link>
           
-          {/* CONTACT */}
           <Link 
             href="#contact" 
-            className={`group transition-colors relative ${activeSection === 'contact' ? 'text-white' : 'text-gray-400 hover:text-sky-blue'}`}
+            className={`group transition-colors relative flex flex-col items-center ${activeSection === 'contact' ? 'text-sky-blue' : 'text-gray-400 hover:text-white'}`}
           >
+            <FaEnvelope className="text-2xl md:hidden group-hover:scale-110 transition-transform" />
             <ActiveDot section="contact" />
-            <FaEnvelope className="text-2xl md:hidden group-hover:scale-110 transition-transform drop-shadow-md" />
             <span className={`hidden md:block text-sm font-medium ${activeSection === 'contact' ? 'text-sky-blue' : ''}`}>Contact</span>
           </Link>
         </div>

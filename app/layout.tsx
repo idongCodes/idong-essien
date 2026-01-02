@@ -29,21 +29,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      {/* FIX: Added suppressHydrationWarning to body to prevent extension-related errors */}
       <body 
+        // Reverted: Removed pb-24 here
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-black text-white`}
         suppressHydrationWarning={true}
       >
         
         <Navbar />
         
-        {/* Mobile Sidebar Padding (pr-14) | Desktop Top Bar Padding (pt-0) */}
-        <main className="flex-1 w-full pr-14 md:pr-0 transition-all">
+        <main className="flex-1 w-full transition-all">
           {children}
         </main>
         
-        {/* Footer Padding for Mobile Sidebar */}
-        <div className="pr-14 md:pr-0 w-full">
+        <div className="w-full">
           <Footer />
         </div>
 
