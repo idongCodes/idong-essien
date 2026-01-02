@@ -1,12 +1,14 @@
 import Image from "next/image";
-import Link from "next/link"; // Ensure Link is imported
-import { FaChevronDown } from "react-icons/fa"; // Import the arrow icon
+import Link from "next/link"; 
+import { FaChevronDown } from "react-icons/fa"; 
 
 import HeroContent from "@/components/HeroContent"; 
 import TechStack from "@/components/TechStack";
 import AboutSection from "@/components/AboutSection";
 import ContactSection from "@/components/ContactSection";
 import ProjectsSection from "@/components/ProjectsSection";
+// 1. Import the new section
+import WorkWithMeSection from "@/components/WorkWithMeSection";
 
 export default function Home() {
   return (
@@ -41,8 +43,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* --- NEW: PULSATING ARROW --- */}
-        {/* Positioned absolutely at the bottom, centered horizontally */}
+        {/* Pulsating Arrow */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-40 animate-bounce">
           <Link 
             href="#about" 
@@ -59,6 +60,8 @@ export default function Home() {
       <section className="max-w-6xl mx-auto px-4 md:px-8 w-full z-10 relative bg-black">
         <AboutSection />
         <TechStack />
+        {/* 2. Inserted WorkWithMeSection here */}
+        <WorkWithMeSection />
         <ProjectsSection />
       </section>
 
