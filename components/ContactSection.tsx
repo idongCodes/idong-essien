@@ -75,6 +75,23 @@ export default function ContactSection() {
       <div className="relative z-40 w-full max-w-lg px-6">
         
         <div className="bg-black/40 backdrop-blur-md border border-white/10 p-8 rounded-2xl shadow-2xl">
+
+          {/* --- NEW: GOOGLE MAPS WIDGET --- */}
+          <div className="w-full h-48 rounded-xl overflow-hidden mb-8 border border-white/10 shadow-inner">
+            <iframe 
+              width="100%" 
+              height="100%" 
+              style={{ border: 0 }} 
+              loading="lazy" 
+              allowFullScreen
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Greendale, Worcester, MA 01606"
+              src="https://maps.google.com/maps?q=Greendale,+Worcester,+MA+01606&t=&z=13&ie=UTF8&iwloc=&output=embed"
+              className="grayscale hover:grayscale-0 transition-all duration-700 opacity-80 hover:opacity-100"
+            ></iframe>
+          </div>
+          {/* ------------------------------- */}
+
           <h2 className="text-3xl font-bold text-white mb-2 text-center">Get in Touch</h2>
           <p className="text-gray-400 text-sm text-center mb-8">
             Have a project in mind or just want to say hi?
