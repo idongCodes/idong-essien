@@ -3,7 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { FaHome, FaUser, FaBriefcase, FaEnvelope } from "react-icons/fa";
+// Added FaHandshake to imports
+import { FaHome, FaUser, FaBriefcase, FaEnvelope, FaHandshake } from "react-icons/fa";
 
 export default function Navbar() {
   const [activeSection, setActiveSection] = useState("home");
@@ -17,33 +18,27 @@ export default function Navbar() {
   // --- SCROLL SPY LOGIC ---
   useEffect(() => {
     const handleScroll = () => {
-      // Get all sections we want to track
-      const sections = ["home", "about", "projects", "contact"];
+      // Updated sections array to include 'work'
+      const sections = ["home", "about", "work", "projects", "contact"];
       
-      // Find the one currently most visible in the viewport
       for (const sectionId of sections) {
-        // Note: Ensure your Hero section has id="hero" in page.tsx
         const element = document.getElementById(sectionId === "home" ? "hero" : sectionId);
         if (element) {
           const rect = element.getBoundingClientRect();
-          // If the top of the section is within the top third of the screen
           if (rect.top >= 0 && rect.top < window.innerHeight / 2) {
             setActiveSection(sectionId);
             break;
           }
-          // Fallback: Check if we are near the bottom for Contact
           if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
             setActiveSection("contact");
           }
         }
       }
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Helper component for the Dot
   const ActiveDot = ({ section }: { section: string }) => (
     activeSection === section ? (
       <div className="absolute -left-3 top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-white rounded-full shadow-[0_0_8px_rgba(255,255,255,0.8)] md:hidden"></div>
@@ -52,7 +47,7 @@ export default function Navbar() {
 
   return (
     <>
-      {/* --- MOBILE HEADER (Sticky Logo) --- */}
+      {/* --- MOBILE HEADER --- */}
       <header className="md:hidden sticky top-0 z-40 w-full flex items-center px-4 py-3 bg-black/40 backdrop-blur-md">
         <Link href="/" onClick={scrollToTop} className="flex items-center gap-2 group">
           <div className="relative w-9 h-9 overflow-hidden rounded-full border border-sky-blue/50 bg-black">
@@ -67,12 +62,10 @@ export default function Navbar() {
 
       {/* --- NAVIGATION CONTAINER --- */}
       <nav className="
-        /* Mobile: Right Sidebar */
         fixed top-0 right-0 h-screen w-14
         bg-zinc-900/40 backdrop-blur-md z-50
         flex flex-col justify-center items-center py-8
         
-        /* Desktop: Top Bar */
         md:fixed md:top-0 md:left-0 md:right-0 md:h-16 md:w-full 
         md:bg-black md:border-b md:border-white/10 md:backdrop-filter-none md:z-50
         md:flex-row md:justify-between md:py-0 md:px-6
@@ -110,6 +103,16 @@ export default function Navbar() {
             <ActiveDot section="about" />
             <FaUser className="text-2xl md:hidden group-hover:scale-110 transition-transform drop-shadow-md" />
             <span className={`hidden md:block text-sm font-medium ${activeSection === 'about' ? 'text-sky-blue' : ''}`}>About</span>
+          </Link>
+
+          {/* WORK (NEW) */}
+          <Link 
+            href="#work" 
+            className={`group transition-colors relative ${activeSection === 'work' ? 'text-white' : 'text-gray-400 hover:text-sky-blue'}`}
+          >
+            <ActiveDot section="work" />
+            <FaHandshake className="text-2xl md:hidden group-hover:scale-110 transition-transform drop-shadow-md" />
+            <span className={`hidden md:block text-sm font-medium ${activeSection === 'work' ? 'text-sky-blue' : ''}`}>Work</span>
           </Link>
 
           {/* PROJECTS */}
