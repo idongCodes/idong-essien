@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Idong Essien | Developer",
+  title: "Idong Essien | Web Developer",
   description: "Portfolio of Idong Essien - Web Developer",
   icons: {
     icon: '/favicon.jpeg',
