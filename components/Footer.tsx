@@ -2,7 +2,8 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-black border-t border-white/10 py-6 mt-auto">
+    // Updated: pt-6 pb-28 for mobile (clears nav), md:py-6 for desktop (standard)
+    <footer className="w-full bg-black border-t border-white/10 pt-6 pb-28 md:py-6 mt-auto">
       <div className="max-w-6xl mx-auto px-4 text-center">
         <div className="flex flex-col gap-2 items-center justify-center text-sm">
           <p className="text-gray-500">
