@@ -10,13 +10,13 @@ export default function WorkWithMeSection() {
     },
     {
       title: "Swift Solutions",
-      // UPDATED DESCRIPTION: Focus on AI & Velocity
-      description: "Leveraging the power of emerging AI technologies to accelerate development cycles. I help you prototype, iterate, and ship full-scale websites and web applications with unmatched velocity, significantly reducing time-to-market without sacrificing quality."
+      description: "Leveraging the power of emerging AI technologies to accelerate development cycles. I help you prototype, iterate, and ship full-scale applications with unmatched velocity, significantly reducing time-to-market without sacrificing quality."
     }
   ];
 
   return (
-    <section className="py-10 w-full px-4 md:px-8 border-b border-white/5">
+    // ADDED id="work" HERE
+    <section id="work" className="py-10 w-full px-4 md:px-8 border-b border-white/5 scroll-mt-24">
       <h2 className="text-3xl font-bold text-white mb-12 text-center tracking-tight">
         Work <span className="text-sky-blue">With Me</span>
       </h2>
