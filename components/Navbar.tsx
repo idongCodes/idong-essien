@@ -35,7 +35,6 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // UPDATED: Dot now sits below the icon for the horizontal layout
   const ActiveDot = ({ section }: { section: string }) => (
     activeSection === section ? (
       <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1 h-1 bg-sky-blue rounded-full shadow-[0_0_8px_rgba(135,206,235,0.8)] md:hidden"></div>
@@ -56,17 +55,23 @@ export default function Navbar() {
         </Link>
       </header>
 
-      {/* NAVIGATION BAR (Floating Bottom Pill) */}
+      {/* NAVIGATION BAR */}
       <nav className="
-        fixed bottom-6 left-1/2 -translate-x-1/2 
-        w-[90%] max-w-[400px] h-16 
-        bg-zinc-900/90 backdrop-blur-xl border border-white/10 
-        rounded-full shadow-2xl z-50
-        flex flex-row justify-evenly items-center px-2
+        /* --- Mobile Styles (Floating Pill) --- */
+        fixed bottom-6 z-50 
+        left-1/2 -translate-x-1/2 transform
+        w-[90%] max-w-[400px] h-16 px-2
+        bg-zinc-900/90 backdrop-blur-xl 
+        border border-white/10 rounded-full shadow-2xl
+        flex items-center justify-evenly
 
-        md:fixed md:top-0 md:left-0 md:right-0 md:h-16 md:w-full md:transform-none 
-        md:rounded-none md:border-b md:border-white/10 md:bg-black md:backdrop-filter-none 
-        md:justify-between md:px-6 md:border-t-0 md:shadow-none
+        /* --- Desktop Overrides (Full Width Top Bar) --- */
+        md:top-0 md:bottom-auto 
+        md:left-0 md:translate-x-0 md:transform-none
+        md:w-full md:max-w-none md:h-16 md:px-6
+        md:rounded-none md:border-0 md:border-b md:border-white/10
+        md:bg-black md:backdrop-filter-none 
+        md:justify-between md:shadow-none
       ">
         
         {/* Desktop Logo (Hidden on mobile) */}
