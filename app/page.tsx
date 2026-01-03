@@ -7,8 +7,8 @@ import TechStack from "@/components/TechStack";
 import AboutSection from "@/components/AboutSection";
 import ContactSection from "@/components/ContactSection";
 import ProjectsSection from "@/components/ProjectsSection";
-// 1. Import the new section
 import WorkWithMeSection from "@/components/WorkWithMeSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
 
 export default function Home() {
   return (
@@ -62,6 +62,9 @@ export default function Home() {
         <TechStack />
         {/* 2. Inserted WorkWithMeSection here */}
         <WorkWithMeSection />
+
+        <TestimonialsSection />
+
         <ProjectsSection />
       </section>
 
