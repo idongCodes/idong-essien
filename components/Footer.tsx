@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-4 text-center">
         <div className="flex flex-col gap-2 items-center justify-center text-sm">
           <p className="text-gray-500">
-            &copy; {new Date().getFullYear()} All Rights Reserved.
+            © {new Date().getFullYear()} All Rights Reserved.
           </p>
           
           <p className="text-gray-300 flex items-center gap-2">
@@ -21,6 +21,14 @@ export default function Footer() {
             </Link>
             <span className="text-lg">👨‍💻</span>
           </p>
+
+          {/* Admin Login Link - Styled to be subtle/hidden */}
+          <Link 
+            href="/admin" 
+            className="mt-4 text-[10px] uppercase tracking-widest text-zinc-800 hover:text-zinc-500 transition-colors"
+          >
+            Admin Login
+          </Link>
         </div>
       </div>
     </footer>
