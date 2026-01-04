@@ -1,6 +1,10 @@
 'use server'
 
 import twilio from 'twilio'
+import { createSession } from '@/lib/session'
+import { revalidatePath } from 'next/cache'
+import { deleteSession } from '@/lib/session'
+import { redirect } from 'next/navigation'
 
 // The only allowed number (Your Google Voice Number)
 const ALLOWED_NUMBER = '7743126471'
@@ -41,4 +45,21 @@ export async function sendLoginCode(formData: FormData) {
     console.log(`(Backup) Code for ${ALLOWED_NUMBER}: ${code}`)
     return { success: false, message: 'SMS failed. Check server console for backup code.' }
   }
+}
+
+// --- NEW FUNCTION: VERIFY CODE & CREATE SESSION ---
+export async function verifyLoginCode(inputCode: string, serverCode: string) {
+  // In a real app, you'd verify against a DB, but for this MVP:
+  if (inputCode.toUpperCase() === serverCode) {
+    await createSession() // <--- Sets the secure cookie
+    revalidatePath('/admin') // <--- Refreshes the page to show dashboard
+    return { success: true }
+  }
+  return { success: false, message: 'Invalid code.' }
+}
+
+// --- NEW LOGOUT ACTION ---
+export async function logoutAction() {
+  await deleteSession()
+  redirect('/admin') // Redirect back to login screen
 }
