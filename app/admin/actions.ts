@@ -1,29 +1,44 @@
 'use server'
 
-// The only allowed number
+import twilio from 'twilio'
+
+// The only allowed number (Your Google Voice Number)
 const ALLOWED_NUMBER = '7743126471'
 
 export async function sendLoginCode(formData: FormData) {
   const input = formData.get('input') as string
   
-  // 1. Sanitize the input (remove spaces, dashes, parentheses)
+  // Sanitize input: remove non-digits
   const cleanNumber = input.replace(/\D/g, '')
 
-  // 2. Check if number matches (checking both with and without country code '1')
+  // Allow input with or without country code '1'
   if (cleanNumber !== ALLOWED_NUMBER && cleanNumber !== `1${ALLOWED_NUMBER}`) {
     return { success: false, message: 'Unauthorized number.' }
   }
 
-  // 3. Generate Random 6-char code (Uppercase + Numbers)
+  // Generate 6-char code
   const code = Math.random().toString(36).slice(2, 8).toUpperCase()
 
-  // 4. "Send" the SMS
-  // TODO: Replace this console.log with Twilio/AWS SNS later
-  console.log('--------------------------------')
-  console.log(`🔐 ADMIN LOGIN CODE: ${code}`)
-  console.log('--------------------------------')
+  try {
+    // Initialize Twilio Client
+    const client = twilio(
+      process.env.TWILIO_ACCOUNT_SID,
+      process.env.TWILIO_AUTH_TOKEN
+    )
 
-  // Return the code to the client component to compare 
-  // (In a production app with a database, you would store this in a session/db, not return it)
-  return { success: true, message: 'Code sent!', code: code }
+    // Send the SMS
+    await client.messages.create({
+      body: `Your Admin Access Code: ${code}`,
+      from: process.env.TWILIO_PHONE_NUMBER, // Your Free Twilio Number
+      to: `+1${ALLOWED_NUMBER}`,             // Your Personal Number
+    })
+
+    return { success: true, message: 'Code sent to your device!', code: code }
+
+  } catch (error) {
+    console.error('Twilio Error:', error)
+    // Fallback: Log code to console if API fails (so you're not locked out during dev)
+    console.log(`(Backup) Code for ${ALLOWED_NUMBER}: ${code}`)
+    return { success: false, message: 'SMS failed. Check server console for backup code.' }
+  }
 }
