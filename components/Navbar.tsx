@@ -2,20 +2,31 @@
 
 import Image from "next/image";
 import Link from "next/link";
+// 1. Added usePathname
+import { usePathname } from "next/navigation"; 
 import { useState, useEffect } from "react";
-import { FaHome, FaUser, FaBriefcase, FaEnvelope, FaHandshake } from "react-icons/fa";
+// 2. Added FaPenNib for Blog icon
+import { FaHome, FaUser, FaBriefcase, FaEnvelope, FaHandshake, FaPenNib } from "react-icons/fa";
 
 export default function Navbar() {
   const [activeSection, setActiveSection] = useState("home");
+  // 3. Get current path
+  const pathname = usePathname(); 
 
   const scrollToTop = (e: React.MouseEvent) => {
-    e.preventDefault();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    setActiveSection("home");
+    // Only prevent default if we are already on home
+    if (pathname === '/') {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setActiveSection("home");
+    }
   };
 
   useEffect(() => {
     const handleScroll = () => {
+      // Only spy on scroll if we are on the home page
+      if (pathname !== '/') return;
+
       const sections = ["home", "about", "work", "projects", "contact"];
       for (const sectionId of sections) {
         const element = document.getElementById(sectionId === "home" ? "hero" : sectionId);
@@ -33,17 +44,23 @@ export default function Navbar() {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [pathname]);
+
+  // Helper to determine if a link is active
+  const isActive = (section: string) => {
+    if (section === 'blog') return pathname === '/blog';
+    return pathname === '/' && activeSection === section;
+  };
 
   const ActiveDot = ({ section }: { section: string }) => (
-    activeSection === section ? (
+    isActive(section) ? (
       <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1 h-1 bg-sky-blue rounded-full shadow-[0_0_8px_rgba(135,206,235,0.8)] md:hidden"></div>
     ) : null
   );
 
   return (
     <>
-      {/* MOBILE HEADER (Logo stays at top) */}
+      {/* MOBILE HEADER */}
       <header className="md:hidden sticky top-0 z-40 w-full flex items-center px-4 py-3 bg-black/40 backdrop-blur-md">
         <Link href="/" onClick={scrollToTop} className="flex items-center gap-2 group">
           <div className="relative w-9 h-9 overflow-hidden rounded-full border border-sky-blue/50 bg-black">
@@ -57,15 +74,13 @@ export default function Navbar() {
 
       {/* NAVIGATION BAR */}
       <nav className="
-        /* --- Mobile Styles (Floating Pill) --- */
         fixed bottom-6 z-50 
         left-1/2 -translate-x-1/2 transform
-        w-[90%] max-w-[400px] h-16 px-2
+        w-[90%] max-w-[450px] h-16 px-2
         bg-zinc-900/90 backdrop-blur-xl 
         border border-white/10 rounded-full shadow-2xl
         flex items-center justify-evenly
 
-        /* --- Desktop Overrides (Full Width Top Bar) --- */
         md:top-0 md:bottom-auto 
         md:left-0 md:translate-x-0 md:transform-none
         md:w-full md:max-w-none md:h-16 md:px-6
@@ -74,7 +89,7 @@ export default function Navbar() {
         md:justify-between md:shadow-none
       ">
         
-        {/* Desktop Logo (Hidden on mobile) */}
+        {/* Desktop Logo */}
         <Link href="/" onClick={scrollToTop} className="hidden md:flex items-center gap-2 group">
           <div className="relative w-10 h-10 overflow-hidden rounded-full border border-sky-blue/50 bg-black">
             <Image src="/favicon.jpeg" alt="Logo" fill className="object-cover group-hover:scale-110 transition-transform" />
@@ -90,47 +105,57 @@ export default function Navbar() {
           <Link 
             href="/" 
             onClick={scrollToTop} 
-            className={`group transition-colors relative flex flex-col items-center ${activeSection === 'home' ? 'text-sky-blue' : 'text-gray-400 hover:text-white'}`}
+            className={`group transition-colors relative flex flex-col items-center ${isActive('home') ? 'text-sky-blue' : 'text-gray-400 hover:text-white'}`}
           >
             <FaHome className="text-2xl md:hidden group-hover:scale-110 transition-transform" />
             <ActiveDot section="home" />
-            <span className={`hidden md:block text-sm font-medium ${activeSection === 'home' ? 'text-sky-blue' : ''}`}>Home</span>
+            <span className={`hidden md:block text-sm font-medium ${isActive('home') ? 'text-sky-blue' : ''}`}>Home</span>
           </Link>
           
           <Link 
-            href="#about" 
-            className={`group transition-colors relative flex flex-col items-center ${activeSection === 'about' ? 'text-sky-blue' : 'text-gray-400 hover:text-white'}`}
+            href="/#about" 
+            className={`group transition-colors relative flex flex-col items-center ${isActive('about') ? 'text-sky-blue' : 'text-gray-400 hover:text-white'}`}
           >
             <FaUser className="text-2xl md:hidden group-hover:scale-110 transition-transform" />
             <ActiveDot section="about" />
-            <span className={`hidden md:block text-sm font-medium ${activeSection === 'about' ? 'text-sky-blue' : ''}`}>About</span>
+            <span className={`hidden md:block text-sm font-medium ${isActive('about') ? 'text-sky-blue' : ''}`}>About</span>
           </Link>
 
           <Link 
-            href="#work" 
-            className={`group transition-colors relative flex flex-col items-center ${activeSection === 'work' ? 'text-sky-blue' : 'text-gray-400 hover:text-white'}`}
+            href="/#work" 
+            className={`group transition-colors relative flex flex-col items-center ${isActive('work') ? 'text-sky-blue' : 'text-gray-400 hover:text-white'}`}
           >
             <FaHandshake className="text-2xl md:hidden group-hover:scale-110 transition-transform" />
             <ActiveDot section="work" />
-            <span className={`hidden md:block text-sm font-medium ${activeSection === 'work' ? 'text-sky-blue' : ''}`}>Work</span>
+            <span className={`hidden md:block text-sm font-medium ${isActive('work') ? 'text-sky-blue' : ''}`}>Work</span>
+          </Link>
+
+          {/* NEW BLOG LINK */}
+          <Link 
+            href="/blog" 
+            className={`group transition-colors relative flex flex-col items-center ${isActive('blog') ? 'text-sky-blue' : 'text-gray-400 hover:text-white'}`}
+          >
+            <FaPenNib className="text-2xl md:hidden group-hover:scale-110 transition-transform" />
+            <ActiveDot section="blog" />
+            <span className={`hidden md:block text-sm font-medium ${isActive('blog') ? 'text-sky-blue' : ''}`}>Blog</span>
           </Link>
 
           <Link 
-            href="#projects" 
-            className={`group transition-colors relative flex flex-col items-center ${activeSection === 'projects' ? 'text-sky-blue' : 'text-gray-400 hover:text-white'}`}
+            href="/#projects" 
+            className={`group transition-colors relative flex flex-col items-center ${isActive('projects') ? 'text-sky-blue' : 'text-gray-400 hover:text-white'}`}
           >
             <FaBriefcase className="text-2xl md:hidden group-hover:scale-110 transition-transform" />
             <ActiveDot section="projects" />
-            <span className={`hidden md:block text-sm font-medium ${activeSection === 'projects' ? 'text-sky-blue' : ''}`}>Projects</span>
+            <span className={`hidden md:block text-sm font-medium ${isActive('projects') ? 'text-sky-blue' : ''}`}>Projects</span>
           </Link>
           
           <Link 
-            href="#contact" 
-            className={`group transition-colors relative flex flex-col items-center ${activeSection === 'contact' ? 'text-sky-blue' : 'text-gray-400 hover:text-white'}`}
+            href="/#contact" 
+            className={`group transition-colors relative flex flex-col items-center ${isActive('contact') ? 'text-sky-blue' : 'text-gray-400 hover:text-white'}`}
           >
             <FaEnvelope className="text-2xl md:hidden group-hover:scale-110 transition-transform" />
             <ActiveDot section="contact" />
-            <span className={`hidden md:block text-sm font-medium ${activeSection === 'contact' ? 'text-sky-blue' : ''}`}>Contact</span>
+            <span className={`hidden md:block text-sm font-medium ${isActive('contact') ? 'text-sky-blue' : ''}`}>Contact</span>
           </Link>
         </div>
 
