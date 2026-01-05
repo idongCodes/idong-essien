@@ -68,7 +68,7 @@ Want to poke around the code?
 
 1.  **Clone the repo:**
     ```bash
-    git clone [https://github.com/idongCodes/portfolio.git](https://github.com/idongCodes/portfolio.git)
+    git clone [https://github.com/idongCodes/idong-essien.git](https://github.com/idongCodes/idong-essien.git)
     cd portfolio
     ```
 
