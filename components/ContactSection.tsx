@@ -1,10 +1,8 @@
-'use client'
+"use client";
 
 import Image from "next/image"
 import { useState } from "react"
 import { sendContactEmail } from "@/app/contact/actions"
-
-// 1. Import all the icons (Added TikTok, Twitch, Discord)
 import { 
   FaFacebook, FaInstagram, FaTumblr, FaLinkedin, 
   FaMastodon, FaSnapchatGhost, FaGithub, FaWhatsapp, FaMedium,
@@ -17,7 +15,6 @@ export default function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [status, setStatus] = useState<{ success: boolean; msg: string } | null>(null)
 
-  // 2. Define the social links array
   const socialLinks = [
     { icon: <FaFacebook />, url: "https://www.facebook.com/idngcodes/", color: "hover:text-blue-500" },
     { icon: <FaInstagram />, url: "https://www.instagram.com/idongcodes/", color: "hover:text-pink-500" },
@@ -55,7 +52,6 @@ export default function ContactSection() {
   return (
     <section id="contact" className="relative w-full py-20 min-h-[900px] flex items-center justify-center bg-black">
       
-      {/* --- BACKGROUND LAYERS --- */}
       <div className="absolute inset-0 w-full h-full z-0">
         <Image
           src="/contact.JPG"
@@ -71,12 +67,10 @@ export default function ContactSection() {
       ></div>
       <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-black to-transparent z-30"></div>
 
-      {/* --- CONTENT FORM --- */}
       <div className="relative z-40 w-full max-w-lg px-6">
         
         <div className="bg-black/40 backdrop-blur-md border border-white/10 p-8 rounded-2xl shadow-2xl">
 
-          {/* --- NEW: GOOGLE MAPS WIDGET --- */}
           <div className="w-full h-48 rounded-xl overflow-hidden mb-8 border border-white/10 shadow-inner">
             <iframe 
               width="100%" 
@@ -90,7 +84,6 @@ export default function ContactSection() {
               className="grayscale hover:grayscale-0 transition-all duration-700 opacity-80 hover:opacity-100"
             ></iframe>
           </div>
-          {/* ------------------------------- */}
 
           <h2 className="text-3xl font-bold text-white mb-2 text-center">Get in Touch</h2>
           <p className="text-gray-400 text-sm text-center mb-8">
@@ -99,7 +92,6 @@ export default function ContactSection() {
 
           <form id="contact-form" action={handleSubmit} className="space-y-4">
             
-            {/* Name */}
             <div>
               <label htmlFor="name" className="block text-xs font-bold text-gray-500 mb-1 uppercase tracking-wide">Name</label>
               <input 
@@ -112,7 +104,6 @@ export default function ContactSection() {
               />
             </div>
 
-            {/* Email */}
             <div>
               <label htmlFor="email" className="block text-xs font-bold text-gray-500 mb-1 uppercase tracking-wide">Email</label>
               <input 
@@ -125,7 +116,6 @@ export default function ContactSection() {
               />
             </div>
 
-            {/* Subject */}
             <div>
               <label htmlFor="subject" className="block text-xs font-bold text-gray-500 mb-1 uppercase tracking-wide">Subject</label>
               <input 
@@ -138,7 +128,6 @@ export default function ContactSection() {
               />
             </div>
 
-            {/* Message */}
             <div>
               <label htmlFor="message" className="block text-xs font-bold text-gray-500 mb-1 uppercase tracking-wide">Message</label>
               <textarea 
@@ -151,14 +140,12 @@ export default function ContactSection() {
               />
             </div>
 
-            {/* Status Message */}
             {status && (
               <p className={`text-center text-sm font-bold ${status.success ? 'text-green-400' : 'text-red-400'}`}>
                 {status.msg}
               </p>
             )}
 
-            {/* Submit Button */}
             <button 
               type="submit" 
               disabled={isSubmitting}
@@ -168,10 +155,8 @@ export default function ContactSection() {
             </button>
           </form>
 
-          {/* 3. Divider */}
           <div className="w-full h-px bg-white/10 my-8"></div>
 
-          {/* 4. Social Media Grid */}
           <div className="flex flex-wrap gap-4 justify-center">
             {socialLinks.map((link, i) => (
               <a 
