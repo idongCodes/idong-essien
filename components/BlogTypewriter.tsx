@@ -30,7 +30,6 @@ export default function BlogTypewriter({ onComplete }: { onComplete?: () => void
   const part2 = displayedText.slice(textFirstHalf.length);
 
   return (
-    // CHANGED: text-4xl (Mobile) | sm:text-6xl (Tablet) | md:text-8xl (Desktop)
     <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold tracking-tighter min-h-[1.2em]">
       <span>{part1}</span>
       <span className="text-sky-blue">{part2}</span>

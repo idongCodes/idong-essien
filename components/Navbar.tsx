@@ -54,7 +54,6 @@ export default function Navbar() {
 
   return (
     <>
-      {/* MOBILE HEADER (Top Bar) */}
       <header className="md:hidden sticky top-0 z-40 w-full flex items-center px-4 py-3 bg-black/40 backdrop-blur-md">
         <Link href="/" onClick={scrollToTop} className="flex items-center gap-2 group">
           <div className="relative w-9 h-9 overflow-hidden rounded-full border border-sky-blue/50 bg-black">
@@ -66,8 +65,6 @@ export default function Navbar() {
         </Link>
       </header>
 
-      {/* --- 1. FLOATING BLOG BUTTON (MOBILE ONLY) --- */}
-      {/* Positioned bottom-6 right-4 to sit inline with the main nav */}
       <Link
         href="/blog"
         className={`
@@ -81,17 +78,14 @@ export default function Navbar() {
         <FaPenNib className="text-2xl" />
       </Link>
 
-      {/* --- 2. MAIN NAVIGATION BAR --- */}
       <nav className="
-        /* MOBILE STYLES: Anchored Left + Shortened Width */
         fixed bottom-6 z-50 
-        left-4 right-24  /* right-24 leaves space for the button (1rem gap + 4rem button + 1rem edge) */
+        left-4 right-24
         h-16 px-1
         bg-zinc-900/90 backdrop-blur-xl 
         border border-white/10 rounded-full shadow-2xl
         flex items-center justify-evenly
 
-        /* DESKTOP STYLES: Reset to full Top Bar */
         md:top-0 md:bottom-auto 
         md:left-0 md:right-0 md:translate-x-0 
         md:w-full md:max-w-none md:h-16 md:px-6
@@ -100,7 +94,6 @@ export default function Navbar() {
         md:justify-between md:shadow-none
       ">
         
-        {/* Desktop Logo */}
         <Link href="/" onClick={scrollToTop} className="hidden md:flex items-center gap-2 group">
           <div className="relative w-10 h-10 overflow-hidden rounded-full border border-sky-blue/50 bg-black">
             <Image src="/favicon.jpeg" alt="Logo" fill className="object-cover group-hover:scale-110 transition-transform" />
@@ -110,7 +103,6 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* Nav Links */}
         <div className="flex w-full md:w-auto justify-evenly md:justify-end md:gap-8 items-center">
           
           <Link 
@@ -141,7 +133,6 @@ export default function Navbar() {
             <span className={`hidden md:block text-sm font-medium ${isActive('work') ? 'text-sky-blue' : ''}`}>Work</span>
           </Link>
 
-          {/* BLOG LINK (DESKTOP ONLY - Hidden inside Main Nav on Mobile) */}
           <Link 
             href="/blog" 
             className={`group transition-colors relative hidden md:flex flex-col items-center ${isActive('blog') ? 'text-sky-blue' : 'text-gray-400 hover:text-white'}`}
