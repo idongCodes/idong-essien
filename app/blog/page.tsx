@@ -11,15 +11,110 @@ import BlogTypewriter from "@/components/BlogTypewriter";
 
 const blogPosts = [
   {
+    id: "writing-less-building-more-survival-guide-ai",
+    title: "The Era of the \"Vibe Coder\": A Survival Guide to the New Industrial Revolution",
+    headline: "We used to be bricklayers; now we can be foremans. How to stop panicking and start orchestrating.",
+    date: "Jan 5, 2026",
+    author: "Essien, Idong",
+    readTime: "15 min read",
+    initialViews: 127,
+    initialShares: 4,
+    initialLikes: 28,
+    content: (
+      <>
+        <h4 className="text-xl font-bold text-white mt-8 mb-4">Let's Be Honest: We're All a Little Freaked Out</h4>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          The first time we saw <strong>GPT-4</strong> generate a fully working React component in four seconds, many of us felt two distinct emotions. The first was awe. The second was a cold, sinking feeling in my stomach that whispered, <em>"I am obsolete."</em>
+        </p>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          There is a frantic energy in our industry right now. We have "Vibe Coders"—kids who can ship entire SaaS apps just by telling an AI to "make it pop"—and we have veterans with 10 years of experience staring at their screens, wondering if their mastery of algorithms is now as useful as knowing how to repair a telegraph. But here is the truth I’ve come to accept: <strong>Coding isn't typing anymore. It's arguing with a robot until it works.</strong> We aren't seeing the end of developers; we are seeing the end of <em>scarcity</em>.
+        </p>
+
+        <h4 className="text-xl font-bold text-white mt-8 mb-4">How We Got Here (A Blur)</h4>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          Remember 2021? When <strong>GitHub Copilot</strong> launched and we thought it was just fancy autocomplete? Cute, right? We treated it like a smarter IntelliSense.
+        </p>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          Then 2023 hit, and the chatbots started writing entire functions. By late 2025, we entered the <strong>Agentic Era</strong>. Tools like <strong>Cursor</strong> and <strong>Windsurf</strong> gave the AI "hands." Suddenly, the AI wasn't just chatting; it was accessing my terminal, reading my compile errors, and fixing bugs across five different files while I sipped coffee - I don't even drink coffee. It went from a tool that helps me write code to a junior partner that sometimes tries to gaslight me.
+        </p>
+
+        <h4 className="text-xl font-bold text-white mt-8 mb-4">The Engine: Gaslighting as a Service?</h4>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          Here is the thing about Large Language Models: they are <strong>Probabilistic Prediction Engines</strong>, not Logic Engines. They don't know "truth." They know "likelihood."
+        </p>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          This is why they hallucinate. An AI will confidently use a library function that was deprecated six months ago simply because it <em>feels</em> right mathematically. It's like having a hyper-confident intern who lies to your face to make you happy. This limitation is actually your job security. The machine generates the "vibes," but <strong>you</strong> have to be the rigorous auditor who knows when it's lying.
+        </p>
+
+        <h4 className="text-xl font-bold text-white mt-8 mb-4">The Roster: Pick Your Teammate</h4>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          Treating all AI models the same is a rookie mistake. Treat them like different coworkers:
+        </p>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          <strong>Claude Opus 4.5 (The Craftsman):</strong> Could be a go to daily driver. It has "taste." It writes code that actually looks like a human wrote it. It handles massive refactors without losing the plot. If you need a frontend component that doesn't look like trash, ask Claude.
+        </p>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          <strong>GPT-5.1 (The Brain):</strong> The "Adaptive Reasoning" feature is scary good. It knows when to shut up and think. Use this when you're stuck on logic that makes your brain hurt. It's not always the prettiest coder, but it's usually the smartest.
+        </p>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          <strong>Gemini 3 Pro (The Hoarder):</strong> Its context window is absurd (2 million+ tokens). You can dump entire legacy repos, hour-long meeting transcripts, and 500-page PDF manuals into it. It's the only tool that can "read" a monolith. It's slow, but it remembers everything. I just run 'npx repomix'.
+        </p>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          <strong>DeepSeek V3.1 (The Rebel):</strong> The open-source disruptor. It's cheap, fast, and runs locally. Use this when you're paranoid about sending your data to the cloud.
+        </p>
+
+        <h4 className="text-xl font-bold text-white mt-8 mb-4">Battle of the IDEs: Copilot vs. Cursor</h4>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          If you are still copy-pasting code from a web browser into VS Code, you are doing it wrong. The battlefield has shifted to the editor itself.
+        </p>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          <strong>Microsoft Copilot</strong> is the responsible choice. It lives in GitHub, it plans your PRs, and your boss loves it because it's compliant. But <strong>Cursor 2.0</strong>? Cursor is for the speed demons. It feels like the editor was built <em>around</em> the AI. Its "Composer" mode edits multiple files so fast it feels like magic. It can write the tests in one file while implementing the logic in another. If you want to feel like a wizard, use Cursor.
+        </p>
+
+        <h4 className="text-xl font-bold text-white mt-8 mb-4">The Verdict: How to Choose?</h4>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          <strong>Hobbyist?</strong> Optimize for speed. Use <strong>Cursor + Claude</strong>. You want to see your idea come to life before you lose motivation. Who cares if the code isn't perfect? Ship it.
+        </p>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          <strong>Professional?</strong> You need a hybrid. Use <strong>Claude</strong> for the UI and <strong>GPT-5.1</strong> for the backend logic. You aren't just shipping features; you're maintaining a system. Correctness {'>'} Vibes.
+        </p>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          <strong>Enterprise?</strong> You're probably stuck with <strong>Microsoft Copilot</strong> because of security. And honestly? That's fine. It's getting better every day.
+        </p>
+
+        <h4 className="text-xl font-bold text-white mt-8 mb-4">Adapting: Shed the Ego</h4>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          <strong>To the Veterans:</strong> Stop gatekeeping. Your value is no longer memorizing syntax or writing a Redux reducer from scratch. Your value is <strong>System Design</strong>. You are the foreman now. You need to verify the bricks, not lay them.
+        </p>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          <strong>To the Career Switchers:</strong> You actually have an advantage. You don't have bad habits to unlearn. Don't spend six months memorizing syntax anymore. Focus on <strong>"Reading Code"</strong> and <strong>"Prompt Engineering."</strong> You need to understand <em>what</em> the code does so you can call BS when the AI hallucinates.
+        </p>
+
+        <h4 className="text-xl font-bold text-white mt-8 mb-4">The New Job Market: It Hasn't Died, It's Mutated</h4>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          Everyone says dev jobs are dead. They aren't. They just look different. The biggest explosion is in <strong>"Internal Tooling."</strong> Companies used to buy clunky SaaS products and force you to use them. Now? Code is so cheap that a single dev can build a bespoke CRM for the sales team in a weekend. You can be the "CTO" of the Marketing Department.
+        </p>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          Then there's the <strong>"RAG Architect."</strong> This is basically teaching the AI how to read your company's diary without leaking secrets. Enterprises are desperate for chatbots that know their internal data but won't hallucinate. If you know how to set up a Vector Database and pipe documents into an LLM securely, you can name your price.
+        </p>
+
+        <h4 className="text-xl font-bold text-white mt-8 mb-4">Start Here (It's Free)</h4>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          You don't need a masters degree. Download <strong>Ollama</strong> to run models locally on your laptop—it teaches you the hardware reality. Check out <strong>DeepLearning.AI</strong> for free courses on Agents. And mostly? Just open the terminal and build something weird. The barrier to entry is gone. The only thing stopping you is your willingness to argue with a robot.
+        </p>
+      </>
+    )
+  },
+  {
     id: "the-great-rewiring-coding-in-the-age-of-ai",
     title: "The Great Rewiring: Coding in the Age of Artificial Intelligence",
     headline: "An honest look at the anxiety, the hype, and the unavoidable reality of AI-assisted engineering.",
-    date: "Jan 5, 2026",
+    date: "Dec 28, 2025",
     author: "Essien, Idong",
     readTime: "10 min read",
-    initialViews: 1204,
-    initialShares: 42,
-    initialLikes: 156,
+    initialViews: 4231,
+    initialShares: 289,
+    initialLikes: 842,
     content: (
       <>
         <h4 className="text-xl font-bold text-white mt-8 mb-4">The Atmosphere: A Mix of Awe and Existential Dread</h4>
@@ -222,21 +317,31 @@ function BlogList() {
   const incrementView = (id: string) => {
     setPostStats(prev => ({
       ...prev,
-      [id]: { ...prev[id], views: prev[id].views + 1 }
+      [id]: { 
+        views: (prev[id]?.views || 0) + 1,
+        shares: prev[id]?.shares || 0,
+        likes: prev[id]?.likes || 0
+      }
     }));
   };
 
   const incrementShare = (id: string) => {
     setPostStats(prev => ({
       ...prev,
-      [id]: { ...prev[id], shares: prev[id].shares + 1 }
+      [id]: { 
+        ...prev[id], 
+        shares: (prev[id]?.shares || 0) + 1 
+      }
     }));
   };
 
   const incrementLike = (id: string) => {
     setPostStats(prev => ({
       ...prev,
-      [id]: { ...prev[id], likes: prev[id].likes + 1 }
+      [id]: { 
+        ...prev[id], 
+        likes: (prev[id]?.likes || 0) + 1 
+      }
     }));
   };
 
@@ -315,7 +420,7 @@ function BlogList() {
                     </div>
                     <div className="flex items-center gap-4">
                       <div className="flex items-center gap-2 text-gray-400 group-hover:text-white transition-colors">
-                        <FaEye /> {postStats[post.id]?.views.toLocaleString()}
+                        <FaEye /> {(postStats[post.id]?.views || 0).toLocaleString()}
                       </div>
                       
                       <button 
@@ -325,11 +430,11 @@ function BlogList() {
                         }}
                         className="flex items-center gap-2 text-gray-400 hover:text-sky-blue transition-colors"
                       >
-                        <FaThumbsUp /> {postStats[post.id]?.likes.toLocaleString()}
+                        <FaThumbsUp /> {(postStats[post.id]?.likes || 0).toLocaleString()}
                       </button>
 
                       <div className="flex items-center gap-2 text-gray-400 group-hover:text-white transition-colors">
-                        <FaShareAlt /> {postStats[post.id]?.shares.toLocaleString()}
+                        <FaShareAlt /> {(postStats[post.id]?.shares || 0).toLocaleString()}
                       </div>
                       
                       <div className="flex items-center gap-2">
@@ -376,13 +481,13 @@ function BlogList() {
                   <span className="hidden sm:inline text-gray-600">|</span>
                   
                   <span className="flex items-center gap-1 text-gray-400">
-                     <FaEye /> {postStats[selectedPost.id]?.views.toLocaleString()}
+                     <FaEye /> {(postStats[selectedPost.id]?.views || 0).toLocaleString()}
                   </span>
                   <span className="flex items-center gap-1 text-gray-400">
-                     <FaThumbsUp /> {postStats[selectedPost.id]?.likes.toLocaleString()}
+                     <FaThumbsUp /> {(postStats[selectedPost.id]?.likes || 0).toLocaleString()}
                   </span>
                   <span className="flex items-center gap-1 text-gray-400">
-                     <FaShareAlt /> {postStats[selectedPost.id]?.shares.toLocaleString()}
+                     <FaShareAlt /> {(postStats[selectedPost.id]?.shares || 0).toLocaleString()}
                   </span>
                 </div>
               </div>
@@ -407,7 +512,7 @@ function BlogList() {
                 onClick={() => incrementLike(selectedPost.id)}
                 className="flex items-center gap-2 px-6 py-3 rounded-full font-bold transition-all border border-sky-blue/30 text-sky-blue hover:bg-sky-blue/10 active:scale-95"
               >
-                <FaThumbsUp /> Like ({postStats[selectedPost.id]?.likes.toLocaleString()})
+                <FaThumbsUp /> Like ({(postStats[selectedPost.id]?.likes || 0).toLocaleString()})
               </button>
 
               <button 
