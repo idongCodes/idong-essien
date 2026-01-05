@@ -6,7 +6,84 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { FaArrowLeft, FaTimes, FaShareAlt, FaCalendarAlt, FaClock, FaCheck } from "react-icons/fa";
 import BlogTypewriter from "@/components/BlogTypewriter";
 
+// --- 1. BLOG DATA ---
 const blogPosts = [
+  {
+    id: "the-great-rewiring-coding-in-the-age-of-ai",
+    title: "The Great Rewiring: Coding in the Age of Artificial Intelligence",
+    headline: "An honest look at the anxiety, the hype, and the unavoidable reality of AI-assisted engineering.",
+    date: "Jan 5, 2026",
+    readTime: "10 min read",
+    content: (
+      <>
+        <h4 className="text-xl font-bold text-white mt-8 mb-4">The Atmosphere: A Mix of Awe and Existential Dread</h4>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          Walk into any coffee shop in San Francisco, join a Reddit thread, or browse Twitter/X, and the mood among technologists is palpable. It is a strange cocktail of <strong>superpowered productivity</strong> and <strong>low-grade existential dread</strong>.
+        </p>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          For decades, software engineers were the "automators"—the ones who wrote the scripts to replace manual labor. Now, for the first time, we are staring at the tool that automates <em>us</em>.
+        </p>
+        <div className="bg-zinc-900/50 p-6 rounded-xl border-l-4 border-sky-blue mb-8">
+          <p className="text-gray-400 italic">
+            "The barrier to entry has dropped, but the barrier to mastery has skyrocketed. We are all feeling a heightened form of Imposter Syndrome: Is it me writing this code, or is it the LLM?"
+          </p>
+        </div>
+
+        <h4 className="text-xl font-bold text-white mt-8 mb-4">Why Do We Feel This Way?</h4>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          The anxiety stems from the rapid commoditization of "syntax." Historically, a developer's value was tied to their ability to recall syntax and write boilerplate functions. AI has reduced the cost of that specific skill to near zero.
+        </p>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          Seniors worry about the flood of AI-generated spaghetti code they'll have to maintain. Juniors worry about how they'll ever learn the fundamentals if the AI solves the "easy problems" that used to be their training ground.
+        </p>
+
+        <h4 className="text-xl font-bold text-white mt-8 mb-4">The Pros: The Superpower of Adaptation</h4>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          Despite the fear, the developers leaning into this shift are experiencing a golden era of productivity.
+        </p>
+        <ul className="list-disc pl-6 text-gray-300 mb-6 space-y-2">
+          <li><strong>Velocity:</strong> What used to take 4 hours of reading documentation now takes 15 minutes of prompting and refining.</li>
+          <li><strong>Focus on Architecture:</strong> We spend less time fighting with CSS centering and regex, and more time thinking about system design, data flow, and user experience.</li>
+          <li><strong>The "Full Stack" Expansion:</strong> Backend devs can now write competent frontend code, and vice versa, because the AI handles the nuances of the unfamiliar framework.</li>
+        </ul>
+
+        <h4 className="text-xl font-bold text-white mt-8 mb-4">The Cons: The Trap of Convenience</h4>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          However, the dangers are real.
+        </p>
+        <ul className="list-disc pl-6 text-gray-300 mb-6 space-y-2">
+          <li><strong>The Illusion of Competence:</strong> It is easy to generate code that runs but is fundamentally insecure or unoptimized. If you don't understand <em>what</em> the AI wrote, you cannot debug it when it breaks.</li>
+          <li><strong>The "Junior Gap":</strong> If we automate away the grunt work, we remove the ladder that juniors climb to become seniors. We risk a future with highly productive architects and no one to replace them.</li>
+          <li><strong>Erosion of Deep Thinking:</strong> Over-reliance on "tab-complete" can atrophy our ability to hold complex logic structures in our heads.</li>
+        </ul>
+
+        <h4 className="text-xl font-bold text-white mt-8 mb-4">Adapt or Fade: The Career Reality</h4>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          Is it important to adapt? <strong>Yes. It is non-negotiable.</strong>
+        </p>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          Will developers who don't adapt be okay? In the short term, perhaps. There is plenty of legacy code to maintain. But in the long term, refusing to use AI will be akin to a mathematician refusing to use a calculator. You <em>can</em> do it, but you will be outpaced by those who treat AI as an exoskeleton for their mind.
+        </p>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          The developers who thrive will not be "coders"—they will be <strong>"Product Engineers."</strong> They will be valued not for how many lines they type, but for how effectively they can orchestrate AI tools to solve business problems.
+        </p>
+
+        <h4 className="text-xl font-bold text-white mt-8 mb-4">The Next 5 Years: A Prediction</h4>
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          Where is this going?
+        </p>
+        <ol className="list-decimal pl-6 text-gray-300 mb-6 space-y-3">
+          <li><strong>Coding becomes Reviewing:</strong> We will write less code from scratch and spend 80% of our time auditing, tweaking, and integrating AI-generated modules.</li>
+          <li><strong>Natural Language as Syntax:</strong> The hottest programming language in 2030 won't be Rust or Python—it will be English (or your native tongue). The ability to articulate a problem clearly will be the primary skill.</li>
+          <li><strong>Hyper-Personalized Software:</strong> With the cost of coding dropping, we will see a surge in "micro-software"—apps built for niche use cases or even single individuals, created in hours, not months.</li>
+        </ol>
+
+        <p className="text-gray-300 font-bold mt-8 border-t border-white/10 pt-6">
+          The sky isn't falling, but the ground is shifting. The best time to learn to surf was yesterday. The second best time is now.
+        </p>
+      </>
+    )
+  },
   {
     id: "the-art-of-shipping-how-i-built-and-un-built-my-digital-home", 
     title: "The Art of Shipping: How I Built (and Un-Built) My Digital Home",
@@ -100,37 +177,45 @@ const blogPosts = [
   }
 ];
 
+// --- 2. BLOG LIST COMPONENT (Handles logic) ---
 function BlogList() {
   const [showContent, setShowContent] = useState(false);
   const [selectedPost, setSelectedPost] = useState<typeof blogPosts[0] | null>(null);
   const [copied, setCopied] = useState(false);
   
+  // Next.js Navigation Hooks
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  // EFFECT: Check URL on load to open post
   useEffect(() => {
     const postId = searchParams.get('id');
     if (postId) {
       const post = blogPosts.find(p => p.id === postId);
       if (post) {
         setSelectedPost(post);
-        setShowContent(true); 
+        setShowContent(true); // Ensure background is visible too
       }
     }
   }, [searchParams]);
 
+  // ACTION: Open Post (Update URL)
   const openPost = (post: typeof blogPosts[0]) => {
     setSelectedPost(post);
+    // Push state without reloading page
     router.push(`/blog?id=${post.id}`, { scroll: false });
   };
 
+  // ACTION: Close Post (Reset URL)
   const closePost = () => {
     setSelectedPost(null);
     setCopied(false);
     router.push('/blog', { scroll: false });
   };
 
+  // ACTION: Share Logic (Real Copy)
   const handleShare = async (post: typeof blogPosts[0]) => {
+    // Generate the exact link to this post
     const origin = typeof window !== 'undefined' ? window.location.origin : '';
     const shareUrl = `${origin}/blog?id=${post.id}`;
     
@@ -140,6 +225,7 @@ function BlogList() {
       url: shareUrl,
     };
 
+    // Try Native Share (Mobile)
     if (navigator.share) {
       try {
         await navigator.share(shareData);
@@ -147,11 +233,12 @@ function BlogList() {
         console.log("Error sharing", err);
       }
     } 
+    // Fallback: Copy to Clipboard (Desktop)
     else {
       try {
         await navigator.clipboard.writeText(shareUrl);
         setCopied(true);
-        setTimeout(() => setCopied(false), 2000); 
+        setTimeout(() => setCopied(false), 2000); // Reset after 2s
       } catch (err) {
         alert("Could not copy link. Manually copy URL from browser.");
       }
@@ -161,6 +248,7 @@ function BlogList() {
   return (
     <div className="min-h-screen w-full bg-black text-white pt-32 pb-20 px-4 md:px-8 flex flex-col items-center relative">
       
+      {/* Back to Home Link */}
       <div className="w-full max-w-4xl mb-8">
         <Link 
           href="/" 
@@ -184,11 +272,12 @@ function BlogList() {
               Exploring the intersection of code, creativity, and continuous learning.
             </p>
 
+            {/* --- BLOG CARDS GRID --- */}
             <div className="w-full grid grid-cols-1 gap-6">
               {blogPosts.map((post) => (
                 <div 
                   key={post.id}
-                  onClick={() => openPost(post)} 
+                  onClick={() => openPost(post)} // Use helper function
                   className="group cursor-pointer p-8 rounded-3xl border border-white/10 bg-zinc-900/30 backdrop-blur-sm hover:bg-zinc-900/60 hover:border-sky-blue/30 transition-all duration-300 shadow-xl"
                 >
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 text-xs font-bold uppercase tracking-widest text-gray-500">
@@ -220,16 +309,20 @@ function BlogList() {
 
       </div>
 
+      {/* --- READING MODAL --- */}
       {selectedPost && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 md:p-8">
           
+          {/* Backdrop */}
           <div 
             className="absolute inset-0 bg-black/90 backdrop-blur-md"
-            onClick={closePost} 
+            onClick={closePost} // Use helper function
           ></div>
 
+          {/* Modal Content */}
           <div className="relative w-full max-w-3xl h-full md:h-auto md:max-h-[85vh] bg-zinc-900 border border-white/10 rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-[fadeIn_0.3s_ease-out]">
             
+            {/* Modal Header */}
             <div className="p-6 md:p-8 border-b border-white/10 flex justify-between items-start gap-4 bg-black/20">
               <div>
                 <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-sky-blue mb-3">
@@ -250,6 +343,7 @@ function BlogList() {
               </button>
             </div>
 
+            {/* Modal Body (Scrollable) */}
             <div className="flex-1 overflow-y-auto p-6 md:p-10 custom-scrollbar">
               <p className="text-xl text-gray-300 font-light mb-8 italic border-l-2 border-sky-blue pl-4">
                 {selectedPost.headline}
@@ -259,6 +353,7 @@ function BlogList() {
               </div>
             </div>
 
+            {/* Modal Footer */}
             <div className="p-4 md:p-6 border-t border-white/10 bg-black/20 flex justify-end">
               <button 
                 onClick={() => handleShare(selectedPost)}
@@ -281,6 +376,8 @@ function BlogList() {
   );
 }
 
+// --- 3. MAIN PAGE EXPORT (WITH SUSPENSE) ---
+// Suspense is required when using useSearchParams in a client component
 export default function BlogPage() {
   return (
     <Suspense fallback={<div className="min-h-screen bg-black" />}>
