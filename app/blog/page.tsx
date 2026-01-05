@@ -7,9 +7,8 @@ import {
   FaArrowLeft, FaTimes, FaShareAlt, FaCalendarAlt, 
   FaClock, FaCheck, FaUser, FaEye, FaThumbsUp 
 } from "react-icons/fa"; 
-import BlogTypewriter from "@/components/BlogTypewriter"; // <--- RESTORED THIS IMPORT
+import BlogTypewriter from "@/components/BlogTypewriter";
 
-// --- 1. BLOG DATA (With Likes) ---
 const blogPosts = [
   {
     id: "the-great-rewiring-coding-in-the-age-of-ai",
@@ -188,13 +187,11 @@ const blogPosts = [
   }
 ];
 
-// --- 2. BLOG LIST COMPONENT ---
 function BlogList() {
   const [showContent, setShowContent] = useState(false);
   const [selectedPost, setSelectedPost] = useState<typeof blogPosts[0] | null>(null);
   const [copied, setCopied] = useState(false);
   
-  // STATE: Holds dynamic stats (Views, Shares, Likes)
   const [postStats, setPostStats] = useState(() => {
     const initialStats: Record<string, { views: number; shares: number; likes: number }> = {};
     blogPosts.forEach(post => {
@@ -222,7 +219,6 @@ function BlogList() {
     }
   }, [searchParams]);
 
-  // --- STATS HELPERS ---
   const incrementView = (id: string) => {
     setPostStats(prev => ({
       ...prev,
@@ -244,7 +240,6 @@ function BlogList() {
     }));
   };
 
-  // --- ACTIONS ---
   const openPost = (post: typeof blogPosts[0]) => {
     setSelectedPost(post);
     incrementView(post.id); 
@@ -284,7 +279,6 @@ function BlogList() {
   return (
     <div className="min-h-screen w-full bg-black text-white pt-32 pb-20 px-4 md:px-8 flex flex-col items-center relative">
       
-      {/* Back to Home Link */}
       <div className="w-full max-w-4xl mb-8">
         <Link 
           href="/" 
@@ -303,7 +297,6 @@ function BlogList() {
               Exploring the intersection of code, creativity, and continuous learning.
             </p>
 
-            {/* --- GRID --- */}
             <div className="w-full grid grid-cols-1 gap-6">
               {blogPosts.map((post) => (
                 <div 
@@ -321,15 +314,13 @@ function BlogList() {
                         </div>
                     </div>
                     <div className="flex items-center gap-4">
-                      {/* STATS ON CARD */}
                       <div className="flex items-center gap-2 text-gray-400 group-hover:text-white transition-colors">
                         <FaEye /> {postStats[post.id]?.views.toLocaleString()}
                       </div>
                       
-                      {/* LIKE BUTTON ON CARD (Interactive!) */}
                       <button 
                         onClick={(e) => {
-                          e.stopPropagation(); // Stop card from opening
+                          e.stopPropagation(); 
                           incrementLike(post.id);
                         }}
                         className="flex items-center gap-2 text-gray-400 hover:text-sky-blue transition-colors"
@@ -363,7 +354,6 @@ function BlogList() {
         </div>
       </div>
 
-      {/* --- MODAL --- */}
       {selectedPost && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 md:p-8">
           <div className="absolute inset-0 bg-black/90 backdrop-blur-md" onClick={closePost}></div>
@@ -372,7 +362,11 @@ function BlogList() {
             
             <div className="p-6 md:p-8 border-b border-white/10 flex justify-between items-start gap-4 bg-black/20">
               <div>
-                <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-xs font-bold uppercase tracking-widest text-sky-blue mb-3">
+                <h2 className="text-2xl md:text-3xl font-bold text-white leading-tight">
+                  {selectedPost.title}
+                </h2>
+
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-xs font-bold uppercase tracking-widest text-sky-blue mt-3">
                   <span className="whitespace-nowrap">{selectedPost.date}</span>
                   <span className="hidden sm:inline">•</span>
                   <span className="whitespace-nowrap">{selectedPost.author}</span>
@@ -381,7 +375,6 @@ function BlogList() {
                   
                   <span className="hidden sm:inline text-gray-600">|</span>
                   
-                  {/* HEADER STATS */}
                   <span className="flex items-center gap-1 text-gray-400">
                      <FaEye /> {postStats[selectedPost.id]?.views.toLocaleString()}
                   </span>
@@ -392,10 +385,8 @@ function BlogList() {
                      <FaShareAlt /> {postStats[selectedPost.id]?.shares.toLocaleString()}
                   </span>
                 </div>
-                <h2 className="text-2xl md:text-3xl font-bold text-white leading-tight">
-                  {selectedPost.title}
-                </h2>
               </div>
+              
               <button onClick={closePost} className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors">
                 <FaTimes size={20} />
               </button>
@@ -410,10 +401,8 @@ function BlogList() {
               </div>
             </div>
 
-            {/* MODAL ACTIONS FOOTER */}
             <div className="p-4 md:p-6 border-t border-white/10 bg-black/20 flex flex-wrap gap-4 justify-end">
               
-              {/* BIG LIKE BUTTON */}
               <button 
                 onClick={() => incrementLike(selectedPost.id)}
                 className="flex items-center gap-2 px-6 py-3 rounded-full font-bold transition-all border border-sky-blue/30 text-sky-blue hover:bg-sky-blue/10 active:scale-95"
