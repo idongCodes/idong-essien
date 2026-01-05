@@ -21,14 +21,6 @@ export default function Footer() {
             </Link>
             <span className="text-lg">👨‍💻</span>
           </p>
-
-          {/* Admin Login Link - Styled to be subtle/hidden */}
-          <Link 
-            href="/admin" 
-            className="mt-4 text-[10px] uppercase tracking-widest text-zinc-800 hover:text-zinc-500 transition-colors"
-          >
-            Admin Login
-          </Link>
         </div>
       </div>
     </footer>
