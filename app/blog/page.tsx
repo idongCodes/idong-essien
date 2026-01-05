@@ -3,17 +3,24 @@
 import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FaArrowLeft, FaTimes, FaShareAlt, FaCalendarAlt, FaClock, FaCheck } from "react-icons/fa";
-import BlogTypewriter from "@/components/BlogTypewriter";
+import { 
+  FaArrowLeft, FaTimes, FaShareAlt, FaCalendarAlt, 
+  FaClock, FaCheck, FaUser, FaEye, FaThumbsUp 
+} from "react-icons/fa"; 
+import BlogTypewriter from "@/components/BlogTypewriter"; // <--- RESTORED THIS IMPORT
 
-// --- 1. BLOG DATA ---
+// --- 1. BLOG DATA (With Likes) ---
 const blogPosts = [
   {
     id: "the-great-rewiring-coding-in-the-age-of-ai",
     title: "The Great Rewiring: Coding in the Age of Artificial Intelligence",
     headline: "An honest look at the anxiety, the hype, and the unavoidable reality of AI-assisted engineering.",
     date: "Jan 5, 2026",
+    author: "Essien, Idong",
     readTime: "10 min read",
+    initialViews: 1204,
+    initialShares: 42,
+    initialLikes: 156,
     content: (
       <>
         <h4 className="text-xl font-bold text-white mt-8 mb-4">The Atmosphere: A Mix of Awe and Existential Dread</h4>
@@ -89,7 +96,11 @@ const blogPosts = [
     title: "The Art of Shipping: How I Built (and Un-Built) My Digital Home",
     headline: "A developer’s journey through Next.js, mobile UX struggles, and the humbling lesson that \"less is often more.\"",
     date: "Jan 4, 2026",
+    author: "Essien, Idong",
     readTime: "7 min read",
+    initialViews: 892,
+    initialShares: 18,
+    initialLikes: 94,
     content: (
       <>
         <h4 className="text-xl font-bold text-white mt-8 mb-4">The Vision: Why Build This?</h4>
@@ -177,45 +188,77 @@ const blogPosts = [
   }
 ];
 
-// --- 2. BLOG LIST COMPONENT (Handles logic) ---
+// --- 2. BLOG LIST COMPONENT ---
 function BlogList() {
   const [showContent, setShowContent] = useState(false);
   const [selectedPost, setSelectedPost] = useState<typeof blogPosts[0] | null>(null);
   const [copied, setCopied] = useState(false);
   
-  // Next.js Navigation Hooks
+  // STATE: Holds dynamic stats (Views, Shares, Likes)
+  const [postStats, setPostStats] = useState(() => {
+    const initialStats: Record<string, { views: number; shares: number; likes: number }> = {};
+    blogPosts.forEach(post => {
+      initialStats[post.id] = { 
+        views: post.initialViews, 
+        shares: post.initialShares,
+        likes: post.initialLikes 
+      };
+    });
+    return initialStats;
+  });
+
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // EFFECT: Check URL on load to open post
   useEffect(() => {
     const postId = searchParams.get('id');
     if (postId) {
       const post = blogPosts.find(p => p.id === postId);
       if (post) {
         setSelectedPost(post);
-        setShowContent(true); // Ensure background is visible too
+        setShowContent(true); 
+        incrementView(postId);
       }
     }
   }, [searchParams]);
 
-  // ACTION: Open Post (Update URL)
+  // --- STATS HELPERS ---
+  const incrementView = (id: string) => {
+    setPostStats(prev => ({
+      ...prev,
+      [id]: { ...prev[id], views: prev[id].views + 1 }
+    }));
+  };
+
+  const incrementShare = (id: string) => {
+    setPostStats(prev => ({
+      ...prev,
+      [id]: { ...prev[id], shares: prev[id].shares + 1 }
+    }));
+  };
+
+  const incrementLike = (id: string) => {
+    setPostStats(prev => ({
+      ...prev,
+      [id]: { ...prev[id], likes: prev[id].likes + 1 }
+    }));
+  };
+
+  // --- ACTIONS ---
   const openPost = (post: typeof blogPosts[0]) => {
     setSelectedPost(post);
-    // Push state without reloading page
+    incrementView(post.id); 
     router.push(`/blog?id=${post.id}`, { scroll: false });
   };
 
-  // ACTION: Close Post (Reset URL)
   const closePost = () => {
     setSelectedPost(null);
     setCopied(false);
     router.push('/blog', { scroll: false });
   };
 
-  // ACTION: Share Logic (Real Copy)
   const handleShare = async (post: typeof blogPosts[0]) => {
-    // Generate the exact link to this post
+    incrementShare(post.id);
     const origin = typeof window !== 'undefined' ? window.location.origin : '';
     const shareUrl = `${origin}/blog?id=${post.id}`;
     
@@ -225,23 +268,16 @@ function BlogList() {
       url: shareUrl,
     };
 
-    // Try Native Share (Mobile)
     if (navigator.share) {
       try {
         await navigator.share(shareData);
-      } catch (err) {
-        console.log("Error sharing", err);
-      }
-    } 
-    // Fallback: Copy to Clipboard (Desktop)
-    else {
+      } catch (err) { console.log("Error sharing", err); }
+    } else {
       try {
         await navigator.clipboard.writeText(shareUrl);
         setCopied(true);
-        setTimeout(() => setCopied(false), 2000); // Reset after 2s
-      } catch (err) {
-        alert("Could not copy link. Manually copy URL from browser.");
-      }
+        setTimeout(() => setCopied(false), 2000); 
+      } catch (err) { alert("Could not copy link."); }
     }
   };
 
@@ -259,91 +295,112 @@ function BlogList() {
       </div>
 
       <div className="max-w-4xl w-full space-y-12">
-        
         <div className="text-center space-y-6">
           <BlogTypewriter onComplete={() => setShowContent(true)} />
           
-          <div 
-            className={`transition-opacity duration-1000 ease-in flex flex-col items-center gap-12 ${
-              showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}
-          >
+          <div className={`transition-opacity duration-1000 ease-in flex flex-col items-center gap-12 ${showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
             <p className="text-xl md:text-2xl text-gray-400 font-light tracking-wide max-w-2xl mx-auto text-center">
               Exploring the intersection of code, creativity, and continuous learning.
             </p>
 
-            {/* --- BLOG CARDS GRID --- */}
+            {/* --- GRID --- */}
             <div className="w-full grid grid-cols-1 gap-6">
               {blogPosts.map((post) => (
                 <div 
                   key={post.id}
-                  onClick={() => openPost(post)} // Use helper function
+                  onClick={() => openPost(post)} 
                   className="group cursor-pointer p-8 rounded-3xl border border-white/10 bg-zinc-900/30 backdrop-blur-sm hover:bg-zinc-900/60 hover:border-sky-blue/30 transition-all duration-300 shadow-xl"
                 >
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 text-xs font-bold uppercase tracking-widest text-gray-500">
-                    <div className="flex items-center gap-2">
-                      <FaCalendarAlt /> {post.date}
+                    <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2">
+                            <FaCalendarAlt /> {post.date}
+                        </div>
+                        <div className="flex items-center gap-2 text-sky-blue">
+                            <FaUser /> {post.author}
+                        </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <FaClock /> {post.readTime}
+                    <div className="flex items-center gap-4">
+                      {/* STATS ON CARD */}
+                      <div className="flex items-center gap-2 text-gray-400 group-hover:text-white transition-colors">
+                        <FaEye /> {postStats[post.id]?.views.toLocaleString()}
+                      </div>
+                      
+                      {/* LIKE BUTTON ON CARD (Interactive!) */}
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation(); // Stop card from opening
+                          incrementLike(post.id);
+                        }}
+                        className="flex items-center gap-2 text-gray-400 hover:text-sky-blue transition-colors"
+                      >
+                        <FaThumbsUp /> {postStats[post.id]?.likes.toLocaleString()}
+                      </button>
+
+                      <div className="flex items-center gap-2 text-gray-400 group-hover:text-white transition-colors">
+                        <FaShareAlt /> {postStats[post.id]?.shares.toLocaleString()}
+                      </div>
+                      
+                      <div className="flex items-center gap-2">
+                        <FaClock /> {post.readTime}
+                      </div>
                     </div>
                   </div>
 
                   <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 group-hover:text-sky-blue transition-colors">
                     {post.title}
                   </h2>
-                  
                   <p className="text-gray-400 font-light leading-relaxed">
                     {post.headline}
                   </p>
-
                   <div className="mt-6 flex items-center text-sky-blue text-sm font-bold uppercase tracking-wide opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">
                     Read Story &rarr;
                   </div>
                 </div>
               ))}
             </div>
-
           </div>
         </div>
-
       </div>
 
-      {/* --- READING MODAL --- */}
+      {/* --- MODAL --- */}
       {selectedPost && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 md:p-8">
-          
-          {/* Backdrop */}
-          <div 
-            className="absolute inset-0 bg-black/90 backdrop-blur-md"
-            onClick={closePost} // Use helper function
-          ></div>
+          <div className="absolute inset-0 bg-black/90 backdrop-blur-md" onClick={closePost}></div>
 
-          {/* Modal Content */}
           <div className="relative w-full max-w-3xl h-full md:h-auto md:max-h-[85vh] bg-zinc-900 border border-white/10 rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-[fadeIn_0.3s_ease-out]">
             
-            {/* Modal Header */}
             <div className="p-6 md:p-8 border-b border-white/10 flex justify-between items-start gap-4 bg-black/20">
               <div>
-                <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-sky-blue mb-3">
-                  <span>{selectedPost.date}</span>
-                  <span>•</span>
-                  <span>{selectedPost.readTime}</span>
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-xs font-bold uppercase tracking-widest text-sky-blue mb-3">
+                  <span className="whitespace-nowrap">{selectedPost.date}</span>
+                  <span className="hidden sm:inline">•</span>
+                  <span className="whitespace-nowrap">{selectedPost.author}</span>
+                  <span className="hidden sm:inline">•</span>
+                  <span className="whitespace-nowrap">{selectedPost.readTime}</span>
+                  
+                  <span className="hidden sm:inline text-gray-600">|</span>
+                  
+                  {/* HEADER STATS */}
+                  <span className="flex items-center gap-1 text-gray-400">
+                     <FaEye /> {postStats[selectedPost.id]?.views.toLocaleString()}
+                  </span>
+                  <span className="flex items-center gap-1 text-gray-400">
+                     <FaThumbsUp /> {postStats[selectedPost.id]?.likes.toLocaleString()}
+                  </span>
+                  <span className="flex items-center gap-1 text-gray-400">
+                     <FaShareAlt /> {postStats[selectedPost.id]?.shares.toLocaleString()}
+                  </span>
                 </div>
                 <h2 className="text-2xl md:text-3xl font-bold text-white leading-tight">
                   {selectedPost.title}
                 </h2>
               </div>
-              
-              <button 
-                onClick={closePost}
-                className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
-              >
+              <button onClick={closePost} className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors">
                 <FaTimes size={20} />
               </button>
             </div>
 
-            {/* Modal Body (Scrollable) */}
             <div className="flex-1 overflow-y-auto p-6 md:p-10 custom-scrollbar">
               <p className="text-xl text-gray-300 font-light mb-8 italic border-l-2 border-sky-blue pl-4">
                 {selectedPost.headline}
@@ -353,14 +410,21 @@ function BlogList() {
               </div>
             </div>
 
-            {/* Modal Footer */}
-            <div className="p-4 md:p-6 border-t border-white/10 bg-black/20 flex justify-end">
+            {/* MODAL ACTIONS FOOTER */}
+            <div className="p-4 md:p-6 border-t border-white/10 bg-black/20 flex flex-wrap gap-4 justify-end">
+              
+              {/* BIG LIKE BUTTON */}
+              <button 
+                onClick={() => incrementLike(selectedPost.id)}
+                className="flex items-center gap-2 px-6 py-3 rounded-full font-bold transition-all border border-sky-blue/30 text-sky-blue hover:bg-sky-blue/10 active:scale-95"
+              >
+                <FaThumbsUp /> Like ({postStats[selectedPost.id]?.likes.toLocaleString()})
+              </button>
+
               <button 
                 onClick={() => handleShare(selectedPost)}
                 className={`flex items-center gap-2 px-6 py-3 rounded-full font-bold transition-all shadow-[0_0_15px_rgba(135,206,235,0.3)] ${
-                  copied 
-                    ? "bg-green-500 text-white" 
-                    : "bg-sky-blue text-black hover:bg-sky-400"
+                  copied ? "bg-green-500 text-white" : "bg-sky-blue text-black hover:bg-sky-400"
                 }`}
               >
                 {copied ? <FaCheck /> : <FaShareAlt />}
@@ -371,13 +435,10 @@ function BlogList() {
           </div>
         </div>
       )}
-
     </div>
   );
 }
 
-// --- 3. MAIN PAGE EXPORT (WITH SUSPENSE) ---
-// Suspense is required when using useSearchParams in a client component
 export default function BlogPage() {
   return (
     <Suspense fallback={<div className="min-h-screen bg-black" />}>
