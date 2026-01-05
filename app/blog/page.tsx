@@ -24,7 +24,7 @@ const blogPosts = [
       <>
         <h4 className="text-xl font-bold text-white mt-8 mb-4">Let's Be Honest: We're All a Little Freaked Out</h4>
         <p className="text-gray-300 mb-6 leading-relaxed">
-          The first time we saw <strong>GPT-4</strong> generate a fully working React component in four seconds, many of us felt two distinct emotions. The first was awe. The second was a cold, sinking feeling in my stomach that whispered, <em>"I am obsolete."</em>
+          The first time we saw <strong>GPT-4</strong> generate a fully working React component in four seconds, many of us felt two distinct emotions. The first was awe. The second was a cold, sinking feeling in our stomachs that whispered, <em>"I am obsolete."</em>
         </p>
         <p className="text-gray-300 mb-6 leading-relaxed">
           There is a frantic energy in our industry right now. We have "Vibe Coders"—kids who can ship entire SaaS apps just by telling an AI to "make it pop"—and we have veterans with 10 years of experience staring at their screens, wondering if their mastery of algorithms is now as useful as knowing how to repair a telegraph. But here is the truth I’ve come to accept: <strong>Coding isn't typing anymore. It's arguing with a robot until it works.</strong> We aren't seeing the end of developers; we are seeing the end of <em>scarcity</em>.
