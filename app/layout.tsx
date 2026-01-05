@@ -15,8 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Idong Essien | Web Developer",
-  description: "Portfolio of Idong Essien - Web Developer",
+  // Updated Title and Description
+  title: "Idong Essien | Software Developer",
+  description: "Portfolio of Idong Essien - Software Developer",
   icons: {
     icon: '/favicon.jpeg',
   },
@@ -30,7 +31,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body 
-        // Reverted: Removed pb-24 here
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-black text-white`}
         suppressHydrationWarning={true}
       >

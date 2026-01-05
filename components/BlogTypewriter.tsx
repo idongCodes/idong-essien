@@ -11,7 +11,7 @@ export default function BlogTypewriter({ onComplete }: { onComplete?: () => void
 
   useEffect(() => {
     let i = 0;
-    const typingSpeed = 100; // ms per char
+    const typingSpeed = 100;
 
     const timer = setInterval(() => {
       if (i < fullText.length) {
@@ -19,7 +19,7 @@ export default function BlogTypewriter({ onComplete }: { onComplete?: () => void
         i++;
       } else {
         clearInterval(timer);
-        if (onComplete) onComplete(); // <--- Notify parent when done
+        if (onComplete) onComplete(); 
       }
     }, typingSpeed);
 
@@ -30,7 +30,8 @@ export default function BlogTypewriter({ onComplete }: { onComplete?: () => void
   const part2 = displayedText.slice(textFirstHalf.length);
 
   return (
-    <h1 className="text-5xl md:text-8xl font-bold tracking-tighter min-h-[1.2em]">
+    // CHANGED: text-4xl (Mobile) | sm:text-6xl (Tablet) | md:text-8xl (Desktop)
+    <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold tracking-tighter min-h-[1.2em]">
       <span>{part1}</span>
       <span className="text-sky-blue">{part2}</span>
       <span className="animate-pulse text-sky-blue">_</span>
