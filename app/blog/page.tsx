@@ -1,14 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
-import { FaArrowLeft, FaTimes, FaShareAlt, FaCalendarAlt, FaClock } from "react-icons/fa";
+import { useRouter, useSearchParams } from "next/navigation";
+import { FaArrowLeft, FaTimes, FaShareAlt, FaCalendarAlt, FaClock, FaCheck } from "react-icons/fa";
 import BlogTypewriter from "@/components/BlogTypewriter";
 
 // --- 1. BLOG DATA ---
 const blogPosts = [
   {
-    id: 1,
+    // UPDATED: Using a "slug" (URL-friendly title) as the ID
+    id: "the-art-of-shipping-how-i-built-and-un-built-my-digital-home", 
     title: "The Art of Shipping: How I Built (and Un-Built) My Digital Home",
     headline: "A developer’s journey through Next.js, mobile UX struggles, and the humbling lesson that \"less is often more.\"",
     date: "Jan 4, 2026",
@@ -100,26 +102,71 @@ const blogPosts = [
   }
 ];
 
-export default function BlogPage() {
+// --- 2. BLOG LIST COMPONENT (Handles logic) ---
+function BlogList() {
   const [showContent, setShowContent] = useState(false);
   const [selectedPost, setSelectedPost] = useState<typeof blogPosts[0] | null>(null);
+  const [copied, setCopied] = useState(false);
+  
+  // Next.js Navigation Hooks
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-  // Share Functionality
+  // EFFECT: Check URL on load to open post
+  useEffect(() => {
+    const postId = searchParams.get('id');
+    if (postId) {
+      const post = blogPosts.find(p => p.id === postId);
+      if (post) {
+        setSelectedPost(post);
+        setShowContent(true); // Ensure background is visible too
+      }
+    }
+  }, [searchParams]);
+
+  // ACTION: Open Post (Update URL)
+  const openPost = (post: typeof blogPosts[0]) => {
+    setSelectedPost(post);
+    // Push state without reloading page
+    router.push(`/blog?id=${post.id}`, { scroll: false });
+  };
+
+  // ACTION: Close Post (Reset URL)
+  const closePost = () => {
+    setSelectedPost(null);
+    setCopied(false);
+    router.push('/blog', { scroll: false });
+  };
+
+  // ACTION: Share Logic (Real Copy)
   const handleShare = async (post: typeof blogPosts[0]) => {
+    // Generate the exact link to this post
+    const origin = typeof window !== 'undefined' ? window.location.origin : '';
+    const shareUrl = `${origin}/blog?id=${post.id}`;
+    
     const shareData = {
       title: post.title,
       text: post.headline,
-      url: window.location.href, // In a real app, this would be a specific slug
+      url: shareUrl,
     };
 
+    // Try Native Share (Mobile)
     if (navigator.share) {
       try {
         await navigator.share(shareData);
       } catch (err) {
         console.log("Error sharing", err);
       }
-    } else {
-      alert("Link copied to clipboard! (Simulation)");
+    } 
+    // Fallback: Copy to Clipboard (Desktop)
+    else {
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000); // Reset after 2s
+      } catch (err) {
+        alert("Could not copy link. Manually copy URL from browser.");
+      }
     }
   };
 
@@ -155,7 +202,7 @@ export default function BlogPage() {
               {blogPosts.map((post) => (
                 <div 
                   key={post.id}
-                  onClick={() => setSelectedPost(post)}
+                  onClick={() => openPost(post)} // Use helper function
                   className="group cursor-pointer p-8 rounded-3xl border border-white/10 bg-zinc-900/30 backdrop-blur-sm hover:bg-zinc-900/60 hover:border-sky-blue/30 transition-all duration-300 shadow-xl"
                 >
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 text-xs font-bold uppercase tracking-widest text-gray-500">
@@ -194,7 +241,7 @@ export default function BlogPage() {
           {/* Backdrop */}
           <div 
             className="absolute inset-0 bg-black/90 backdrop-blur-md"
-            onClick={() => setSelectedPost(null)}
+            onClick={closePost} // Use helper function
           ></div>
 
           {/* Modal Content */}
@@ -214,7 +261,7 @@ export default function BlogPage() {
               </div>
               
               <button 
-                onClick={() => setSelectedPost(null)}
+                onClick={closePost}
                 className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
               >
                 <FaTimes size={20} />
@@ -235,9 +282,14 @@ export default function BlogPage() {
             <div className="p-4 md:p-6 border-t border-white/10 bg-black/20 flex justify-end">
               <button 
                 onClick={() => handleShare(selectedPost)}
-                className="flex items-center gap-2 px-6 py-3 rounded-full bg-sky-blue text-black font-bold hover:bg-sky-400 transition-colors shadow-[0_0_15px_rgba(135,206,235,0.3)]"
+                className={`flex items-center gap-2 px-6 py-3 rounded-full font-bold transition-all shadow-[0_0_15px_rgba(135,206,235,0.3)] ${
+                  copied 
+                    ? "bg-green-500 text-white" 
+                    : "bg-sky-blue text-black hover:bg-sky-400"
+                }`}
               >
-                <FaShareAlt /> Share Article
+                {copied ? <FaCheck /> : <FaShareAlt />}
+                {copied ? "Link Copied!" : "Share Article"}
               </button>
             </div>
 
@@ -246,5 +298,15 @@ export default function BlogPage() {
       )}
 
     </div>
+  );
+}
+
+// --- 3. MAIN PAGE EXPORT (WITH SUSPENSE) ---
+// Suspense is required when using useSearchParams in a client component
+export default function BlogPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black" />}>
+      <BlogList />
+    </Suspense>
   );
 }
