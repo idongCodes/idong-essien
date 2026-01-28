@@ -8,6 +8,7 @@ import {
   FaClock, FaCheck, FaUser, FaEye, FaThumbsUp 
 } from "react-icons/fa"; 
 import BlogTypewriter from "@/components/BlogTypewriter";
+import FadeIn from "@/components/FadeIn";
 
 const blogPosts = [
   {
@@ -404,55 +405,56 @@ function BlogList() {
 
             <div className="w-full grid grid-cols-1 gap-6">
               {blogPosts.map((post) => (
-                <div 
-                  key={post.id}
-                  onClick={() => openPost(post)} 
-                  className="group cursor-pointer p-8 rounded-3xl border border-white/10 bg-zinc-900/30 backdrop-blur-sm hover:bg-zinc-900/60 hover:border-sky-blue/30 transition-all duration-300 shadow-xl"
-                >
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 text-xs font-bold uppercase tracking-widest text-gray-500">
-                    <div className="flex items-center gap-4">
+                <FadeIn key={post.id}>
+                  <div 
+                    onClick={() => openPost(post)} 
+                    className="group cursor-pointer p-8 rounded-3xl border border-white/10 bg-zinc-900/30 backdrop-blur-sm hover:bg-zinc-900/60 hover:border-sky-blue/30 transition-all duration-300 shadow-xl"
+                  >
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 text-xs font-bold uppercase tracking-widest text-gray-500">
+                      <div className="flex items-center gap-4">
+                          <div className="flex items-center gap-2">
+                              <FaCalendarAlt /> {post.date}
+                          </div>
+                          <div className="flex items-center gap-2 text-sky-blue">
+                              <FaUser /> {post.author}
+                          </div>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2 text-gray-400 group-hover:text-white transition-colors">
+                          <FaEye /> {(postStats[post.id]?.views || 0).toLocaleString()}
+                        </div>
+                        
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation(); 
+                            incrementLike(post.id);
+                          }}
+                          className="flex items-center gap-2 text-gray-400 hover:text-sky-blue transition-colors"
+                        >
+                          <FaThumbsUp /> {(postStats[post.id]?.likes || 0).toLocaleString()}
+                        </button>
+
+                        <div className="flex items-center gap-2 text-gray-400 group-hover:text-white transition-colors">
+                          <FaShareAlt /> {(postStats[post.id]?.shares || 0).toLocaleString()}
+                        </div>
+                        
                         <div className="flex items-center gap-2">
-                            <FaCalendarAlt /> {post.date}
+                          <FaClock /> {post.readTime}
                         </div>
-                        <div className="flex items-center gap-2 text-sky-blue">
-                            <FaUser /> {post.author}
-                        </div>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <div className="flex items-center gap-2 text-gray-400 group-hover:text-white transition-colors">
-                        <FaEye /> {(postStats[post.id]?.views || 0).toLocaleString()}
-                      </div>
-                      
-                      <button 
-                        onClick={(e) => {
-                          e.stopPropagation(); 
-                          incrementLike(post.id);
-                        }}
-                        className="flex items-center gap-2 text-gray-400 hover:text-sky-blue transition-colors"
-                      >
-                        <FaThumbsUp /> {(postStats[post.id]?.likes || 0).toLocaleString()}
-                      </button>
-
-                      <div className="flex items-center gap-2 text-gray-400 group-hover:text-white transition-colors">
-                        <FaShareAlt /> {(postStats[post.id]?.shares || 0).toLocaleString()}
-                      </div>
-                      
-                      <div className="flex items-center gap-2">
-                        <FaClock /> {post.readTime}
                       </div>
                     </div>
-                  </div>
 
-                  <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 group-hover:text-sky-blue transition-colors">
-                    {post.title}
-                  </h2>
-                  <p className="text-gray-400 font-light leading-relaxed">
-                    {post.headline}
-                  </p>
-                  <div className="mt-6 flex items-center text-sky-blue text-sm font-bold uppercase tracking-wide opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">
-                    Read Story &rarr;
+                    <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 group-hover:text-sky-blue transition-colors">
+                      {post.title}
+                    </h2>
+                    <p className="text-gray-400 font-light leading-relaxed">
+                      {post.headline}
+                    </p>
+                    <div className="mt-6 flex items-center text-sky-blue text-sm font-bold uppercase tracking-wide opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">
+                      Read Story &rarr;
+                    </div>
                   </div>
-                </div>
+                </FadeIn>
               ))}
             </div>
           </div>

@@ -9,6 +9,7 @@ import ContactSection from "@/components/ContactSection";
 import ProjectsSection from "@/components/ProjectsSection";
 import WorkWithMeSection from "@/components/WorkWithMeSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
+import FadeIn from "@/components/FadeIn";
 
 export default function Home() {
   return (
@@ -34,7 +35,9 @@ export default function Home() {
         
         <div className="absolute inset-0 z-30 flex items-center">
           <div className="w-full max-w-6xl mx-auto px-4 md:px-8">
-            <HeroContent />
+            <FadeIn>
+              <HeroContent />
+            </FadeIn>
           </div>
         </div>
 
@@ -51,16 +54,30 @@ export default function Home() {
       </section>
 
       <section className="max-w-6xl mx-auto px-4 md:px-8 w-full z-10 relative bg-black">
-        <AboutSection />
-        <TechStack />
-        <WorkWithMeSection />
+        <FadeIn>
+          <AboutSection />
+        </FadeIn>
+        
+        <FadeIn>
+          <TechStack />
+        </FadeIn>
 
-        <TestimonialsSection />
+        <FadeIn>
+          <WorkWithMeSection />
+        </FadeIn>
 
-        <ProjectsSection />
+        <FadeIn>
+          <TestimonialsSection />
+        </FadeIn>
+
+        <FadeIn>
+          <ProjectsSection />
+        </FadeIn>
       </section>
 
-      <ContactSection />
+      <FadeIn>
+        <ContactSection />
+      </FadeIn>
 
     </div>
   );
