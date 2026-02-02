@@ -8,6 +8,15 @@ import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 
 const projects = [
   {
+    title: "My Daily Devotional",
+    description: "A spiritually enriching app combining Scripture with modern tech for personalized insights. Features daily readings, contextual understanding, and tools for prayer and worship, powered by AI integration.",
+    tech: ["Next.js 16", "TypeScript", "Tailwind CSS", "Gemini API"],
+    imageDesktop: "/window.svg",
+    imageMobile: "/globe.svg",
+    liveUrl: "https://idongcodes.github.io/my-daily-devotional/",
+    githubUrl: "https://github.com/idongCodes/my-daily-devotional"
+  },
+  {
     title: "Symbria Logistics",
     description: "A comprehensive delivery and logistics management dashboard. Streamlines route tracking, inventory management, and driver coordination with a clean, data-rich interface. Built to handle complex scheduling needs.",
     tech: ["Next.js", "TypeScript", "Tailwind CSS"],
@@ -33,15 +42,6 @@ const projects = [
     imageMobile: "/love-my-fam-mobile.jpg",
     liveUrl: "https://love-my-fam.vercel.app/",
     githubUrl: "https://github.com/idongCodes/love-my-fam"
-  },
-  {
-    title: "My Daily Devotional",
-    description: "A spiritual companion app offering daily scripture readings, reflections, and a space for personal prayer and journaling. Built to foster consistent spiritual habits.",
-    tech: ["Next.js", "TypeScript", "Tailwind CSS"],
-    imageDesktop: "/window.svg", 
-    imageMobile: "/globe.svg",
-    liveUrl: "https://my-daily-devotional.vercel.app/",
-    githubUrl: "https://github.com/idongCodes/my-daily-devotional"
   }
 ];
 
