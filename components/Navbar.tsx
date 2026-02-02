@@ -80,7 +80,7 @@ export default function Navbar() {
 
       <nav className="
         fixed bottom-6 z-50 
-        left-8 right-28
+        left-10 right-32
         h-14 px-1
         bg-zinc-900/90 backdrop-blur-xl 
         border border-white/10 rounded-full shadow-2xl
@@ -88,7 +88,7 @@ export default function Navbar() {
 
         md:top-4 md:bottom-auto 
         md:left-0 md:right-0 md:mx-auto
-        md:w-full md:max-w-5xl md:h-14 md:px-6
+        md:w-full md:max-w-4xl md:h-14 md:px-6
         md:rounded-full md:border md:border-white/10
         md:bg-black/80 md:backdrop-blur-xl 
         md:justify-between md:shadow-2xl
