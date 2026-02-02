@@ -6,6 +6,12 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { FaHome, FaUser, FaBriefcase, FaEnvelope, FaHandshake, FaPenNib } from "react-icons/fa";
 
+const ActiveDot = ({ active }: { active: boolean }) => (
+  active ? (
+    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1 h-1 bg-sky-blue rounded-full shadow-[0_0_8px_rgba(135,206,235,0.8)] md:hidden"></div>
+  ) : null
+);
+
 export default function Navbar() {
   const [activeSection, setActiveSection] = useState("home");
   const pathname = usePathname(); 
@@ -46,17 +52,11 @@ export default function Navbar() {
     return pathname === '/' && activeSection === section;
   };
 
-  const ActiveDot = ({ section }: { section: string }) => (
-    isActive(section) ? (
-      <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1 h-1 bg-sky-blue rounded-full shadow-[0_0_8px_rgba(135,206,235,0.8)] md:hidden"></div>
-    ) : null
-  );
-
   return (
     <>
-      <header className="md:hidden sticky top-0 z-40 w-full flex items-center px-4 py-3 bg-black/40 backdrop-blur-md">
+      <header className="md:hidden sticky top-0 z-40 w-full flex items-center px-4 py-2 bg-black/40 backdrop-blur-md">
         <Link href="/" onClick={scrollToTop} className="flex items-center gap-2 group">
-          <div className="relative w-9 h-9 overflow-hidden rounded-full border border-sky-blue/50 bg-black">
+          <div className="relative w-8 h-8 overflow-hidden rounded-full border border-sky-blue/50 bg-black">
             <Image src="/favicon.jpeg" alt="Logo" fill className="object-cover" />
           </div>
           <span className="font-bold text-lg tracking-tight text-white drop-shadow-md">
@@ -69,7 +69,7 @@ export default function Navbar() {
         href="/blog"
         className={`
           md:hidden fixed bottom-6 right-4 z-50 
-          w-16 h-16 flex items-center justify-center 
+          w-14 h-14 flex items-center justify-center 
           bg-zinc-900/90 backdrop-blur-xl border border-white/10 rounded-full shadow-2xl
           transition-transform hover:scale-110 active:scale-95
           ${isActive('blog') ? 'text-sky-blue border-sky-blue/50' : 'text-gray-400'}
@@ -81,21 +81,21 @@ export default function Navbar() {
       <nav className="
         fixed bottom-6 z-50 
         left-4 right-24
-        h-16 px-1
+        h-14 px-1
         bg-zinc-900/90 backdrop-blur-xl 
         border border-white/10 rounded-full shadow-2xl
         flex items-center justify-evenly
 
         md:top-0 md:bottom-auto 
         md:left-0 md:right-0 md:translate-x-0 
-        md:w-full md:max-w-none md:h-16 md:px-6
+        md:w-full md:max-w-none md:h-14 md:px-6
         md:rounded-none md:border-0 md:border-b md:border-white/10
         md:bg-black md:backdrop-filter-none 
         md:justify-between md:shadow-none
       ">
         
         <Link href="/" onClick={scrollToTop} className="hidden md:flex items-center gap-2 group">
-          <div className="relative w-10 h-10 overflow-hidden rounded-full border border-sky-blue/50 bg-black">
+          <div className="relative w-9 h-9 overflow-hidden rounded-full border border-sky-blue/50 bg-black">
             <Image src="/favicon.jpeg" alt="Logo" fill className="object-cover group-hover:scale-110 transition-transform" />
           </div>
           <span className="font-bold text-xl tracking-tight text-white">
@@ -111,7 +111,7 @@ export default function Navbar() {
             className={`group transition-colors relative flex flex-col items-center ${isActive('home') ? 'text-sky-blue' : 'text-gray-400 hover:text-white'}`}
           >
             <FaHome className="text-2xl md:hidden group-hover:scale-110 transition-transform" />
-            <ActiveDot section="home" />
+            <ActiveDot active={isActive('home')} />
             <span className={`hidden md:block text-sm font-medium ${isActive('home') ? 'text-sky-blue' : ''}`}>Home</span>
           </Link>
           
@@ -120,7 +120,7 @@ export default function Navbar() {
             className={`group transition-colors relative flex flex-col items-center ${isActive('about') ? 'text-sky-blue' : 'text-gray-400 hover:text-white'}`}
           >
             <FaUser className="text-2xl md:hidden group-hover:scale-110 transition-transform" />
-            <ActiveDot section="about" />
+            <ActiveDot active={isActive('about')} />
             <span className={`hidden md:block text-sm font-medium ${isActive('about') ? 'text-sky-blue' : ''}`}>About</span>
           </Link>
 
@@ -129,7 +129,7 @@ export default function Navbar() {
             className={`group transition-colors relative flex flex-col items-center ${isActive('work') ? 'text-sky-blue' : 'text-gray-400 hover:text-white'}`}
           >
             <FaHandshake className="text-2xl md:hidden group-hover:scale-110 transition-transform" />
-            <ActiveDot section="work" />
+            <ActiveDot active={isActive('work')} />
             <span className={`hidden md:block text-sm font-medium ${isActive('work') ? 'text-sky-blue' : ''}`}>Work</span>
           </Link>
 
@@ -138,7 +138,7 @@ export default function Navbar() {
             className={`group transition-colors relative hidden md:flex flex-col items-center ${isActive('blog') ? 'text-sky-blue' : 'text-gray-400 hover:text-white'}`}
           >
             <FaPenNib className="text-2xl md:hidden group-hover:scale-110 transition-transform" />
-            <ActiveDot section="blog" />
+            <ActiveDot active={isActive('blog')} />
             <span className={`hidden md:block text-sm font-medium ${isActive('blog') ? 'text-sky-blue' : ''}`}>Blog</span>
           </Link>
 
@@ -147,7 +147,7 @@ export default function Navbar() {
             className={`group transition-colors relative flex flex-col items-center ${isActive('projects') ? 'text-sky-blue' : 'text-gray-400 hover:text-white'}`}
           >
             <FaBriefcase className="text-2xl md:hidden group-hover:scale-110 transition-transform" />
-            <ActiveDot section="projects" />
+            <ActiveDot active={isActive('projects')} />
             <span className={`hidden md:block text-sm font-medium ${isActive('projects') ? 'text-sky-blue' : ''}`}>Projects</span>
           </Link>
           
@@ -156,7 +156,7 @@ export default function Navbar() {
             className={`group transition-colors relative flex flex-col items-center ${isActive('contact') ? 'text-sky-blue' : 'text-gray-400 hover:text-white'}`}
           >
             <FaEnvelope className="text-2xl md:hidden group-hover:scale-110 transition-transform" />
-            <ActiveDot section="contact" />
+            <ActiveDot active={isActive('contact')} />
             <span className={`hidden md:block text-sm font-medium ${isActive('contact') ? 'text-sky-blue' : ''}`}>Contact</span>
           </Link>
         </div>
