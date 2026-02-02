@@ -8,6 +8,15 @@ import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 
 const projects = [
   {
+    title: "My Daily Devotional",
+    description: "A spiritually enriching app combining Scripture with modern tech for personalized insights. Features daily readings, contextual understanding, and tools for prayer and worship, powered by AI integration.",
+    tech: ["Next.js 16", "TypeScript", "Tailwind CSS", "Gemini API"],
+    imageDesktop: "/devotional-desktop.png",
+    imageMobile: "/devotional-mobile.png",
+    liveUrl: "https://idongcodes.github.io/my-daily-devotional/",
+    githubUrl: "https://github.com/idongCodes/my-daily-devotional"
+  },
+  {
     title: "Symbria Logistics",
     description: "A comprehensive delivery and logistics management dashboard. Streamlines route tracking, inventory management, and driver coordination with a clean, data-rich interface. Built to handle complex scheduling needs.",
     tech: ["Next.js", "TypeScript", "Tailwind CSS"],
