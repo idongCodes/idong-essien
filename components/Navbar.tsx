@@ -80,18 +80,18 @@ export default function Navbar() {
 
       <nav className="
         fixed bottom-6 z-50 
-        left-4 right-24
+        left-8 right-28
         h-14 px-1
         bg-zinc-900/90 backdrop-blur-xl 
         border border-white/10 rounded-full shadow-2xl
         flex items-center justify-evenly
 
-        md:top-0 md:bottom-auto 
-        md:left-0 md:right-0 md:translate-x-0 
-        md:w-full md:max-w-none md:h-14 md:px-6
-        md:rounded-none md:border-0 md:border-b md:border-white/10
-        md:bg-black md:backdrop-filter-none 
-        md:justify-between md:shadow-none
+        md:top-4 md:bottom-auto 
+        md:left-0 md:right-0 md:mx-auto
+        md:w-full md:max-w-5xl md:h-14 md:px-6
+        md:rounded-full md:border md:border-white/10
+        md:bg-black/80 md:backdrop-blur-xl 
+        md:justify-between md:shadow-2xl
       ">
         
         <Link href="/" onClick={scrollToTop} className="hidden md:flex items-center gap-2 group">
