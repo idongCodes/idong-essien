@@ -80,8 +80,7 @@ export default function HeroContent() {
             </a>
 
             <Link 
-              href="https://profile.indeed.com/p/richarde-nr373s7"
-              target="_blank"
+              href="/resume"
               className="text-2xl hover:text-sky-blue hover:scale-110 transition-transform duration-300"
               title="View Resume"
             >
