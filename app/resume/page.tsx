@@ -25,7 +25,7 @@ export default function ResumePage() {
           <div className="flex items-center gap-3 px-2">
             <div className="flex items-center gap-2 text-sm font-mono text-[#c9d1d9]">
                 <FaBook className="text-gray-400" />
-                <span className="font-semibold">Richard Essien</span>
+                <span className="font-semibold">Idong Essien</span>
                 <span className="text-gray-500">/</span>
                 <span>README.md</span>
             </div>
