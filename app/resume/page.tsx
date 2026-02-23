@@ -46,8 +46,8 @@ export default function ResumePage() {
           
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-12 not-prose border-b border-[#30363d] pb-8">
             <div>
-                <h1 className="text-4xl font-bold text-white mb-2">Richard Essien</h1>
-                <p className="text-xl text-gray-400 mb-2">Customer Service Pro with an innate curiousity for technology</p>
+                <h1 className="text-4xl font-bold text-white mb-2">Idong Essien</h1>
+                <p className="text-xl text-gray-400 mb-2">Software Developer with a life-long curiosity for technology</p>
                 <div className="flex items-center gap-2 text-sm text-gray-400">
                     <span>📍 Worcester, MA</span>
                 </div>
