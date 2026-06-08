@@ -41,6 +41,52 @@ const fallbackProjects: Project[] = [
 
 
 
+const techMap: Record<string, string> = {
+  "next": "Next.js",
+  "react": "React",
+  "tailwindcss": "Tailwind CSS",
+  "prisma": "Prisma",
+  "@prisma/client": "Prisma",
+  "framer-motion": "Framer Motion",
+  "@supabase/supabase-js": "Supabase",
+  "pg": "PostgreSQL",
+  "mongodb": "MongoDB",
+  "mongoose": "Mongoose",
+  "@google/generative-ai": "Gemini API",
+  "resend": "Resend",
+  "pusher": "Pusher",
+  "typescript": "TypeScript",
+  "zod": "Zod",
+  "twilio": "Twilio",
+  "lucide-react": "Lucide"
+};
+
+async function getRepoTechStack(repo: string, fallbackLangData: any): Promise<string[]> {
+  try {
+    let pkgRes = await fetch(`https://raw.githubusercontent.com/idongCodes/${repo}/main/package.json`, { next: { revalidate: 3600 } });
+    if (!pkgRes.ok) {
+      pkgRes = await fetch(`https://raw.githubusercontent.com/idongCodes/${repo}/master/package.json`, { next: { revalidate: 3600 } });
+    }
+    
+    if (pkgRes.ok) {
+      const pkg = await pkgRes.json();
+      const deps = [...Object.keys(pkg.dependencies || {}), ...Object.keys(pkg.devDependencies || {})];
+      const matchedTech = deps
+        .map(dep => techMap[dep])
+        .filter((t): t is string => !!t);
+      
+      const uniqueTech = Array.from(new Set(matchedTech));
+      if (uniqueTech.length > 0) {
+        return uniqueTech.slice(0, 4);
+      }
+    }
+  } catch (e) {
+    // Ignore error and fallback
+  }
+  
+  return Object.keys(fallbackLangData).slice(0, 4);
+}
+
 async function getPinnedProjects(): Promise<Project[]> {
   try {
     const profileRes = await fetch("https://github.com/idongCodes", {
@@ -78,7 +124,7 @@ async function getPinnedProjects(): Promise<Project[]> {
           const repoData = await repoRes.json();
           const langData = langRes.ok ? await langRes.json() : {};
 
-          const tech = Object.keys(langData).slice(0, 4);
+          const tech = await getRepoTechStack(repo, langData);
           const liveUrl = repoData.homepage || repoData.html_url;
           
           let imageMobile = `https://avatars.githubusercontent.com/u/22062405?v=4`;
