@@ -5,6 +5,7 @@ import { FaChevronDown } from "react-icons/fa";
 import HeroContent from "@/components/HeroContent"; 
 import TechStack from "@/components/TechStack";
 import AboutSection from "@/components/AboutSection";
+import GithubContributions from "@/components/GithubContributions";
 import ContactSection from "@/components/ContactSection";
 import ProjectsSection from "@/components/ProjectsSection";
 import WorkWithMeSection from "@/components/WorkWithMeSection";
@@ -56,6 +57,10 @@ export default function Home() {
       <section className="max-w-6xl mx-auto px-4 md:px-8 w-full z-10 relative bg-black">
         <FadeIn>
           <AboutSection />
+        </FadeIn>
+        
+        <FadeIn>
+          <GithubContributions />
         </FadeIn>
         
         <FadeIn>
