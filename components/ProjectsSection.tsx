@@ -39,22 +39,7 @@ const fallbackProjects: Project[] = [
   }
 ];
 
-async function getFavicon(url: string): Promise<string> {
-  if (!url) return `https://avatars.githubusercontent.com/u/22062405?v=4`;
-  try {
-    const res = await fetch(url, { next: { revalidate: 3600 } });
-    if (!res.ok) throw new Error("Failed");
-    const html = await res.text();
-    const match = html.match(/<link[^>]*rel=["'](?:shortcut )?icon["'][^>]*href=["']([^"']+)["']/i) || 
-                  html.match(/<link[^>]*href=["']([^"']+)["'][^>]*rel=["'](?:shortcut )?icon["']/i);
-    if (match) {
-      return new URL(match[1], url).href;
-    }
-    return `https://www.google.com/s2/favicons?domain=${new URL(url).hostname}&sz=256`;
-  } catch {
-    return `https://avatars.githubusercontent.com/u/22062405?v=4`; // fallback to github avatar
-  }
-}
+
 
 async function getPinnedProjects(): Promise<Project[]> {
   try {
@@ -96,12 +81,13 @@ async function getPinnedProjects(): Promise<Project[]> {
           const tech = Object.keys(langData).slice(0, 4);
           const liveUrl = repoData.homepage || repoData.html_url;
           
-          let favicon = `https://avatars.githubusercontent.com/u/22062405?v=4`;
+          let imageMobile = `https://avatars.githubusercontent.com/u/22062405?v=4`;
           let imageDesktop = `https://opengraph.githubassets.com/1/idongCodes/${repo}`;
           
           if (repoData.homepage) {
-            favicon = await getFavicon(repoData.homepage);
-            imageDesktop = `https://api.microlink.io/?url=${encodeURIComponent(repoData.homepage)}&screenshot=true&meta=false&embed=screenshot.url`;
+            const encodedUrl = encodeURIComponent(repoData.homepage);
+            imageMobile = `https://api.microlink.io/?url=${encodedUrl}&screenshot=true&meta=false&embed=screenshot.url&viewport.width=375&viewport.height=812&viewport.isMobile=true`;
+            imageDesktop = `https://api.microlink.io/?url=${encodedUrl}&screenshot=true&meta=false&embed=screenshot.url`;
           }
 
           return {
@@ -109,7 +95,7 @@ async function getPinnedProjects(): Promise<Project[]> {
             description: repoData.description || "No description provided for this repository.",
             tech: tech.length > 0 ? tech : ["GitHub Repository"],
             imageDesktop: imageDesktop,
-            imageMobile: favicon,
+            imageMobile: imageMobile,
             liveUrl: liveUrl,
             githubUrl: repoData.html_url,
           };
