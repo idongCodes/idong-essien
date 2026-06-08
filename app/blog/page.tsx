@@ -315,7 +315,7 @@ function BlogList() {
     }
   }, [searchParams]);
 
-  const incrementView = (id: string) => {
+  function incrementView(id: string) {
     setPostStats(prev => ({
       ...prev,
       [id]: { 
@@ -324,7 +324,7 @@ function BlogList() {
         likes: prev[id]?.likes || 0
       }
     }));
-  };
+  }
 
   const incrementShare = (id: string) => {
     setPostStats(prev => ({

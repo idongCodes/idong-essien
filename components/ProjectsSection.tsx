@@ -1,12 +1,6 @@
-"use client";
+import ProjectCard, { Project } from "./ProjectCard";
 
-import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
-import { FaGithub } from "react-icons/fa";
-import { FaArrowUpRightFromSquare } from "react-icons/fa6";
-
-const projects = [
+const fallbackProjects: Project[] = [
   {
     title: "My Daily Devotional",
     description: "A spiritually enriching app combining Scripture with modern tech for personalized insights. Features daily readings, contextual understanding, and tools for prayer and worship, powered by AI integration.",
@@ -45,86 +39,78 @@ const projects = [
   }
 ];
 
-function ProjectCard({ project }: { project: any }) {
-  const [isExpanded, setIsExpanded] = useState(false);
+async function getPinnedProjects(): Promise<Project[]> {
+  try {
+    const profileRes = await fetch("https://github.com/idongCodes", {
+      next: { revalidate: 3600 }
+    });
+    
+    if (!profileRes.ok) {
+      throw new Error("Failed to fetch GitHub profile");
+    }
 
-  return (
-    <div className="group relative rounded-2xl border border-white/10 bg-white/5 shadow-lg flex flex-col overflow-hidden">
-      
-      <div className="relative h-72 w-full flex items-center justify-center bg-white/5 p-6">
-        <div className="relative w-56 h-56 flex-shrink-0">
-          
-          <div className="absolute inset-0 w-full h-full rounded-full overflow-hidden border-4 border-white/10 shadow-2xl group-hover:scale-105 transition-transform duration-500">
-            <Image
-              src={project.imageDesktop}
-              alt={`${project.title} Desktop`}
-              fill
-              className="object-cover object-top"
-            />
-          </div>
+    const html = await profileRes.text();
+    const repoMatches = [...html.matchAll(/<span class="repo">([^<]+)<\/span>/g)];
+    const repoNames = repoMatches.map(m => m[1]).slice(0, 6);
 
-          <div className="absolute bottom-0 right-0 w-20 h-20 rounded-full overflow-hidden border-4 border-black bg-black shadow-xl z-10 transform group-hover:-translate-y-2 group-hover:-translate-x-2 transition-transform duration-500">
-             <Image
-              src={project.imageMobile}
-              alt={`${project.title} Mobile`}
-              fill
-              className="object-cover"
-            />
-          </div>
+    if (repoNames.length === 0) {
+      return fallbackProjects;
+    }
 
-        </div>
-      </div>
+    const projects = await Promise.all(
+      repoNames.map(async (repo) => {
+        try {
+          const [repoRes, langRes] = await Promise.all([
+            fetch(`https://api.github.com/repos/idongCodes/${repo}`, {
+              next: { revalidate: 3600 },
+              headers: { "Accept": "application/vnd.github.v3+json" }
+            }),
+            fetch(`https://api.github.com/repos/idongCodes/${repo}/languages`, {
+              next: { revalidate: 3600 },
+              headers: { "Accept": "application/vnd.github.v3+json" }
+            })
+          ]);
 
-      <div className="flex-1 p-6 bg-zinc-900/80 border-t border-white/10 flex flex-col justify-between">
-        
-        <div className="flex flex-col items-center">
-          <h3 className="text-2xl font-bold text-white mb-3 text-center">{project.title}</h3>
-          
-          <div className="text-center mb-4">
-            <p className={`text-gray-400 md:text-gray-300 text-sm leading-relaxed transition-all ${isExpanded ? '' : 'md:line-clamp-4'}`}>
-              {project.description}
-            </p>
-            
-            <button 
-              onClick={() => setIsExpanded(!isExpanded)}
-              className="hidden md:inline-block text-sky-blue text-xs font-bold mt-2 hover:text-white transition-colors uppercase tracking-wide"
-            >
-              {isExpanded ? 'See Less' : 'See More'}
-            </button>
-          </div>
+          if (!repoRes.ok) return null;
 
-          <div className="flex flex-wrap gap-2 mb-6 justify-center">
-            {project.tech.map((t: string, i: number) => (
-              <span key={i} className="text-[10px] uppercase font-bold tracking-wider text-sky-blue bg-sky-blue/10 px-2 py-1 rounded border border-sky-blue/20">
-                {t}
-              </span>
-            ))}
-          </div>
-        </div>
+          const repoData = await repoRes.json();
+          const langData = langRes.ok ? await langRes.json() : {};
 
-        <div className="flex gap-4 justify-center mt-auto">
-          <Link 
-            href={project.githubUrl} 
-            target="_blank"
-            className="flex items-center gap-2 px-5 py-2 bg-white text-black rounded-full font-bold hover:bg-gray-200 transition-colors text-xs uppercase tracking-wide"
-          >
-            <FaGithub className="text-lg" /> Code
-          </Link>
-          <Link 
-            href={project.liveUrl} 
-            target="_blank"
-            className="flex items-center gap-2 px-5 py-2 bg-sky-blue text-black rounded-full font-bold hover:bg-sky-400 transition-colors text-xs uppercase tracking-wide"
-          >
-            <FaArrowUpRightFromSquare className="text-lg" /> Live
-          </Link>
-        </div>
+          const tech = Object.keys(langData).slice(0, 4);
 
-      </div>
-    </div>
-  )
+          return {
+            title: repoData.name.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase()),
+            description: repoData.description || "No description provided for this repository.",
+            tech: tech.length > 0 ? tech : ["GitHub Repository"],
+            imageDesktop: `https://opengraph.githubassets.com/1/idongCodes/${repo}`,
+            imageMobile: `https://avatars.githubusercontent.com/u/22062405?v=4`,
+            liveUrl: repoData.homepage || repoData.html_url,
+            githubUrl: repoData.html_url,
+          };
+        } catch (e) {
+          console.error(`Failed to fetch metadata for ${repo}`, e);
+          return null;
+        }
+      })
+    );
+
+    const validProjects = projects.filter((p): p is Project => p !== null);
+    
+    // If rate limited or all failed, return fallback
+    if (validProjects.length === 0) {
+      return fallbackProjects;
+    }
+
+    return validProjects;
+  } catch (error) {
+    console.error("Error fetching pinned projects:", error);
+    return fallbackProjects;
+  }
 }
 
-export default function ProjectsSection() {
+export default async function ProjectsSection() {
+  const projects = await getPinnedProjects();
+
   return (
     <section id="projects" className="py-20 w-full px-4 md:px-8 bg-black border-t border-white/5">
       <h2 className="text-3xl font-bold text-white mb-16 text-center tracking-tight">
