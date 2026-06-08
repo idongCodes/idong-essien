@@ -36,13 +36,12 @@ export default function ProjectCard({ project }: { project: Project }) {
             )}
           </div>
 
-          <div className="absolute bottom-0 right-0 w-20 h-20 rounded-full overflow-hidden border-4 border-black bg-black shadow-xl z-10 transform group-hover:-translate-y-2 group-hover:-translate-x-2 transition-transform duration-500">
+          <div className="absolute bottom-0 right-0 w-20 h-20 rounded-full overflow-hidden border-4 border-black bg-black shadow-xl z-10 transform group-hover:-translate-y-2 group-hover:-translate-x-2 transition-transform duration-500 flex items-center justify-center">
              {project.imageMobile && (
-               <Image
+               <img
                 src={project.imageMobile}
                 alt={`${project.title} Mobile`}
-                fill
-                className="object-cover"
+                className="w-full h-full object-cover bg-white"
               />
              )}
           </div>

@@ -39,6 +39,23 @@ const fallbackProjects: Project[] = [
   }
 ];
 
+async function getFavicon(url: string): Promise<string> {
+  if (!url) return `https://avatars.githubusercontent.com/u/22062405?v=4`;
+  try {
+    const res = await fetch(url, { next: { revalidate: 3600 } });
+    if (!res.ok) throw new Error("Failed");
+    const html = await res.text();
+    const match = html.match(/<link[^>]*rel=["'](?:shortcut )?icon["'][^>]*href=["']([^"']+)["']/i) || 
+                  html.match(/<link[^>]*href=["']([^"']+)["'][^>]*rel=["'](?:shortcut )?icon["']/i);
+    if (match) {
+      return new URL(match[1], url).href;
+    }
+    return `https://www.google.com/s2/favicons?domain=${new URL(url).hostname}&sz=256`;
+  } catch {
+    return `https://avatars.githubusercontent.com/u/22062405?v=4`; // fallback to github avatar
+  }
+}
+
 async function getPinnedProjects(): Promise<Project[]> {
   try {
     const profileRes = await fetch("https://github.com/idongCodes", {
@@ -77,14 +94,20 @@ async function getPinnedProjects(): Promise<Project[]> {
           const langData = langRes.ok ? await langRes.json() : {};
 
           const tech = Object.keys(langData).slice(0, 4);
+          const liveUrl = repoData.homepage || repoData.html_url;
+          
+          let favicon = `https://avatars.githubusercontent.com/u/22062405?v=4`;
+          if (repoData.homepage) {
+            favicon = await getFavicon(repoData.homepage);
+          }
 
           return {
             title: repoData.name.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase()),
             description: repoData.description || "No description provided for this repository.",
             tech: tech.length > 0 ? tech : ["GitHub Repository"],
             imageDesktop: `https://opengraph.githubassets.com/1/idongCodes/${repo}`,
-            imageMobile: `https://avatars.githubusercontent.com/u/22062405?v=4`,
-            liveUrl: repoData.homepage || repoData.html_url,
+            imageMobile: favicon,
+            liveUrl: liveUrl,
             githubUrl: repoData.html_url,
           };
         } catch (e) {
