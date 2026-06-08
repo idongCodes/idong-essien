@@ -10,17 +10,21 @@ export default function GithubContributions() {
           My <span className="text-sky-blue">Contributions</span>
         </h2>
         
-        <div className="p-8 rounded-2xl border border-white/10 bg-white/5 shadow-lg w-full overflow-x-auto flex justify-center">
-          <GitHubCalendar 
-            username="idongCodes" 
-            colorScheme="dark"
-            theme={{
-              dark: ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353']
-            }}
-            fontSize={14}
-            blockSize={14}
-            blockMargin={6}
-          />
+        <div className="p-4 md:p-8 rounded-2xl border border-white/10 bg-white/5 shadow-lg w-full relative">
+          <div className="w-full overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" dir="rtl">
+            <div className="min-w-max flex md:justify-center w-full" dir="ltr">
+              <GitHubCalendar 
+                username="idongCodes" 
+                colorScheme="dark"
+                theme={{
+                  dark: ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353']
+                }}
+                fontSize={12}
+                blockSize={12}
+                blockMargin={5}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </section>
