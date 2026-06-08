@@ -97,15 +97,18 @@ async function getPinnedProjects(): Promise<Project[]> {
           const liveUrl = repoData.homepage || repoData.html_url;
           
           let favicon = `https://avatars.githubusercontent.com/u/22062405?v=4`;
+          let imageDesktop = `https://opengraph.githubassets.com/1/idongCodes/${repo}`;
+          
           if (repoData.homepage) {
             favicon = await getFavicon(repoData.homepage);
+            imageDesktop = `https://api.microlink.io/?url=${encodeURIComponent(repoData.homepage)}&screenshot=true&meta=false&embed=screenshot.url`;
           }
 
           return {
             title: repoData.name.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase()),
             description: repoData.description || "No description provided for this repository.",
             tech: tech.length > 0 ? tech : ["GitHub Repository"],
-            imageDesktop: `https://opengraph.githubassets.com/1/idongCodes/${repo}`,
+            imageDesktop: imageDesktop,
             imageMobile: favicon,
             liveUrl: liveUrl,
             githubUrl: repoData.html_url,
