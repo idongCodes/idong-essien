@@ -14,6 +14,7 @@ const ActiveDot = ({ active }: { active: boolean }) => (
 
 export default function Navbar() {
   const [activeSection, setActiveSection] = useState("home");
+  const [isWorkMenuOpen, setIsWorkMenuOpen] = useState(false);
   const pathname = usePathname(); 
 
   const scrollToTop = (e: React.MouseEvent) => {
@@ -124,14 +125,30 @@ export default function Navbar() {
             <span className={`hidden md:block text-sm font-medium ${isActive('about') ? 'text-sky-blue' : ''}`}>About</span>
           </Link>
 
-          <Link 
-            href="/#work" 
-            className={`group transition-colors relative flex flex-col items-center ${isActive('work') ? 'text-sky-blue' : 'text-gray-400 hover:text-white'}`}
-          >
-            <FaHandshake className="text-2xl md:hidden group-hover:scale-110 transition-transform" />
-            <ActiveDot active={isActive('work')} />
-            <span className={`hidden md:block text-sm font-medium ${isActive('work') ? 'text-sky-blue' : ''}`}>Work</span>
-          </Link>
+          <div className="relative flex flex-col items-center">
+            <Link 
+              href="/#work" 
+              onClick={(e) => {
+                if (!isWorkMenuOpen) {
+                  e.preventDefault();
+                  setIsWorkMenuOpen(true);
+                } else {
+                  setIsWorkMenuOpen(false);
+                }
+              }}
+              className={`group transition-colors relative flex flex-col items-center ${isActive('work') ? 'text-sky-blue' : 'text-gray-400 hover:text-white'}`}
+            >
+              <FaHandshake className="text-2xl md:hidden group-hover:scale-110 transition-transform" />
+              <ActiveDot active={isActive('work')} />
+              <span className={`hidden md:block text-sm font-medium ${isActive('work') ? 'text-sky-blue' : ''}`}>Work</span>
+            </Link>
+            
+            <div className={`absolute bottom-full md:bottom-auto md:top-full mb-4 md:mb-0 md:mt-4 ${isWorkMenuOpen ? 'flex' : 'hidden'} flex-col bg-zinc-900/95 backdrop-blur-md border border-white/10 rounded-xl p-2 min-w-[120px] shadow-2xl transition-all`}>
+              <Link href="/hire-me" onClick={() => setIsWorkMenuOpen(false)} className="text-sm font-medium text-gray-400 hover:text-sky-blue hover:bg-white/10 px-4 py-2 rounded-lg transition-all text-center whitespace-nowrap">
+                Hire Me
+              </Link>
+            </div>
+          </div>
 
           <Link 
             href="/blog" 
