@@ -1,6 +1,10 @@
-import Link from "next/link";
+"use client";
+
+import { useState } from "react";
+import IntakeFormModal from "./IntakeFormModal";
 
 export default function WorkWithMeSection() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const services = [
     {
       title: "PWAs & Websites",
@@ -89,15 +93,21 @@ export default function WorkWithMeSection() {
         </div>
       </div>
 
-      {/* Centered Hire Me Button */}
-      <div className="mt-20 flex justify-center">
-        <Link 
-          href="#contact" 
-          className="bg-sky-blue text-black font-bold py-3 px-10 rounded-full hover:bg-sky-400 transition-all hover:scale-105 shadow-[0_0_20px_rgba(135,206,235,0.3)]"
+      {/* Centered Intake Form Button */}
+      <div className="mt-20 flex flex-col items-center justify-center">
+        <button 
+          onClick={() => setIsModalOpen(true)}
+          className="bg-sky-blue text-black font-bold py-4 px-12 rounded-full hover:bg-sky-400 transition-all hover:scale-105 shadow-[0_0_20px_rgba(135,206,235,0.3)] text-lg"
         >
-          Hire Me
-        </Link>
+          Submit Intake Form
+        </button>
+        <p className="mt-4 text-xs text-gray-500 font-light flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-sky-blue animate-pulse"></span>
+          Clicking this button will open a secure project intake form.
+        </p>
       </div>
+
+      <IntakeFormModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </section>
   );
 }
