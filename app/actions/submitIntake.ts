@@ -21,34 +21,7 @@ export async function submitIntakeForm(formData: FormData) {
 
     console.log("Received Intake Form:", rawData);
 
-    // 1. Send Discord Notification
-    const discordWebhookUrl = process.env.DISCORD_WEBHOOK_URL;
-    if (discordWebhookUrl) {
-      const discordMessage = {
-        content: "<@660597284676829216> You have a new lead! 🚀",
-        embeds: [{
-          title: "New Project Intake Request",
-          color: 0x87CEEB, // sky-blue
-          fields: [
-            { name: "Name", value: rawData.fullName || "N/A", inline: true },
-            { name: "Email", value: rawData.email || "N/A", inline: true },
-            { name: "Budget", value: rawData.budget || "N/A", inline: true },
-            { name: "Project Type", value: rawData.projectType || "N/A" },
-            { name: "Description", value: rawData.description ? rawData.description.substring(0, 1000) : "N/A" },
-            { name: "Timeline", value: rawData.timeline || "N/A" },
-          ],
-          timestamp: new Date().toISOString(),
-        }]
-      };
-
-      await fetch(discordWebhookUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(discordMessage),
-      }).catch(e => console.error("Discord webhook failed", e));
-    }
-
-    // 2. Format & Send Email (Using Resend API)
+    // 1. Format & Send Email (Using Resend API)
     const resendApiKey = process.env.RESEND_API_KEY;
     if (resendApiKey) {
       await fetch("https://api.resend.com/emails", {
@@ -79,18 +52,6 @@ export async function submitIntakeForm(formData: FormData) {
           `
         })
       }).catch(e => console.error("Resend email failed", e));
-    }
-
-    // 3. Google Sheets Webhook (Make.com / Zapier)
-    // NOTE: Connecting directly to Google API requires a service account JSON file. 
-    // Using a webhook is much faster and more secure for Next.js applications.
-    const googleSheetsWebhook = process.env.SHEETS_WEBHOOK_URL;
-    if (googleSheetsWebhook) {
-      await fetch(googleSheetsWebhook, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(rawData),
-      }).catch(e => console.error("Sheets webhook failed", e));
     }
 
     return { success: true };
