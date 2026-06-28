@@ -32,7 +32,7 @@ export async function submitIntakeForm(formData: FormData) {
         },
         body: JSON.stringify({
           from: "Acme <onboarding@resend.dev>", // Update this to a verified domain if needed
-          to: ["idessien+essiendev@gmail.com"],
+          to: ["i.d.essien@gmail.com"],
           subject: `New Client Lead: ${rawData.fullName} - ${rawData.projectType}`,
           html: `
             <h2>New Intake Form Submission</h2>
