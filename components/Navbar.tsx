@@ -65,24 +65,13 @@ export default function Navbar() {
         </Link>
       </header>
 
-      <Link
-        href="/blog"
-        className={`
-          md:hidden fixed bottom-6 right-4 z-50 
-          w-14 h-14 flex items-center justify-center 
-          bg-zinc-900/90 backdrop-blur-xl border border-white/10 rounded-full shadow-2xl
-          transition-transform hover:scale-110 active:scale-95
-          ${isActive('blog') ? 'text-sky-blue border-sky-blue/50' : 'text-gray-400'}
-        `}
-      >
-        <FaPenNib className="text-2xl" />
-      </Link>
+
 
       <nav className="
         fixed bottom-6 z-50 
-        left-10 right-32
+        left-4 right-4
         h-14 px-1
-        bg-zinc-900/90 backdrop-blur-xl 
+        bg-zinc-900/50 backdrop-blur-xl 
         border border-white/10 rounded-full shadow-2xl
         flex items-center justify-evenly
 
@@ -90,7 +79,7 @@ export default function Navbar() {
         md:left-0 md:right-0 md:mx-auto
         md:w-full md:max-w-4xl md:h-14 md:px-6
         md:rounded-full md:border md:border-white/10
-        md:bg-black/80 md:backdrop-blur-xl 
+        md:bg-black/50 md:backdrop-blur-xl 
         md:justify-between md:shadow-2xl
       ">
         
@@ -135,7 +124,7 @@ export default function Navbar() {
 
           <Link 
             href="/blog" 
-            className={`group transition-colors relative hidden md:flex flex-col items-center ${isActive('blog') ? 'text-sky-blue' : 'text-gray-400 hover:text-white'}`}
+            className={`group transition-colors relative flex flex-col items-center ${isActive('blog') ? 'text-sky-blue' : 'text-gray-400 hover:text-white'}`}
           >
             <FaPenNib className="text-2xl md:hidden group-hover:scale-110 transition-transform" />
             <ActiveDot active={isActive('blog')} />
