@@ -22,7 +22,7 @@ export default function ContactSection() {
     { icon: <FaXTwitter />, url: "https://x.com/idongCodes", color: "hover:text-gray-400" },
     { icon: <FaTiktok />, url: "https://www.tiktok.com/@idongcodes", color: "hover:text-pink-500" },
     { icon: <FaTwitch />, url: "https://www.twitch.tv/idongcodes", color: "hover:text-purple-500" },
-    { icon: <FaDiscord />, url: "https://discord.gg/a36TsP7f", color: "hover:text-indigo-500" },
+    { icon: <FaDiscord />, url: "https://discord.com/users/660597284676829216", color: "hover:text-indigo-500" },
     { icon: <FaTumblr />, url: "https://www.tumblr.com/idongcodes", color: "hover:text-blue-300" },
     { icon: <FaLinkedin />, url: "https://www.linkedin.com/in/idongcodes", color: "hover:text-blue-600" },
     { icon: <SiBluesky />, url: "https://bsky.app/profile/idongcodes.bsky.social", color: "hover:text-sky-500" },
@@ -30,7 +30,7 @@ export default function ContactSection() {
     { icon: <FaSnapchatGhost />, url: "https://www.snapchat.com/add/idongcxdes?share_id=xDbAEOcbstE&locale=en-US", color: "hover:text-yellow-400" },
     { icon: <FaGithub />, url: "https://github.com/idongCodes", color: "hover:text-gray-400" },
     { icon: <FaWhatsapp />, url: "https://wa.me/17743126471", color: "hover:text-green-500" },
-    { icon: <SiHashnode />, url: "https://hashnode.com/@idongCodes", color: "hover:text-blue-600" },
+    { icon: <SiHashnode />, url: "https://hashnode.com/@idongcodes", color: "hover:text-blue-600" },
     { icon: <FaMedium />, url: "https://medium.com/@idongcodes", color: "hover:text-white" },
   ]
 
