@@ -13,9 +13,27 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import FadeIn from "@/components/FadeIn";
 
 export default function Home() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Idong Essien",
+    "url": "https://essien.dev",
+    "jobTitle": "Software Developer",
+    "image": "https://essien.dev/opengraph-image.jpeg",
+    "sameAs": [
+      "https://github.com/idongCodes",
+      "https://www.linkedin.com/in/idongcodes/",
+      "https://medium.com/@idongcodes"
+    ]
+  };
+
   return (
     <div className="flex flex-col">
-      
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       <section id="hero" className="relative w-full h-[80vh] overflow-hidden bg-black">
         
         <div 
