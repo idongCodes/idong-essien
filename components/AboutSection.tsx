@@ -1,4 +1,3 @@
-import Link from "next/link";
 
 export default function AboutSection() {
   return (
@@ -22,11 +21,6 @@ export default function AboutSection() {
         <p>
           Other interests include manual transmission vehicles, console gaming, sweets and desserts, dogs, horror TV and movies, soccer, savoury foods and he controversially believes pineapples definitely <strong className="text-white font-bold">DO NOT</strong> belong on pizza.
         </p>
-      </div>
-      <div className="mt-10 flex justify-center">
-        <Link href="#contact" className="bg-sky-blue text-black font-bold py-3 px-10 rounded-full hover:bg-sky-400 transition-all hover:scale-105 shadow-[0_0_20px_rgba(135,206,235,0.3)]">
-          Hire Me
-        </Link>
       </div>
     </section>
   );
