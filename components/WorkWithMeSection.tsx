@@ -1,10 +1,6 @@
-"use client";
-
-import { useState } from "react";
-import IntakeFormModal from "./IntakeFormModal";
+import Link from "next/link";
 
 export default function WorkWithMeSection() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const services = [
     {
       title: "PWAs & Websites",
@@ -95,19 +91,17 @@ export default function WorkWithMeSection() {
 
       {/* Centered Intake Form Button */}
       <div className="mt-20 flex flex-col items-center justify-center">
-        <button 
-          onClick={() => setIsModalOpen(true)}
+        <Link 
+          href="/intake"
           className="bg-sky-blue text-black font-bold py-4 px-12 rounded-full hover:bg-sky-400 transition-all hover:scale-105 shadow-[0_0_20px_rgba(135,206,235,0.3)] text-lg"
         >
           Submit Intake Form
-        </button>
+        </Link>
         <p className="mt-4 text-xs text-gray-500 font-light flex items-center gap-2">
           <span className="w-1.5 h-1.5 rounded-full bg-sky-blue animate-pulse"></span>
-          Clicking this button will open a secure project intake form.
+          Clicking this button will take you to a secure project intake form.
         </p>
       </div>
-
-      <IntakeFormModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </section>
   );
 }
