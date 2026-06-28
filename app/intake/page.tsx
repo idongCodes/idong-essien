@@ -2,7 +2,12 @@ import IntakeForm from "@/components/IntakeForm";
 
 export const metadata = {
   title: "Client Intake | Idong Essien",
-  description: "Submit a project request to work with me.",
+  description: "Submit a project request to work with me on bespoke websites, PWAs, or internal software.",
+  openGraph: {
+    title: "Start a Project | Idong Essien",
+    description: "Ready to build something great? Fill out the intake form to get started.",
+    url: "https://essien.dev/intake",
+  },
 };
 
 export default function IntakePage() {

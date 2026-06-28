@@ -16,12 +16,32 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  // Updated Title and Description
-  title: "Idong Essien | Software Developer",
-  description: "Portfolio of Idong Essien - Software Developer",
+  title: "Idong Essien | Software & Web Developer",
+  description: "Portfolio of Idong Essien, a Software & Web Developer specializing in bespoke websites, Progressive Web Apps (PWAs), and internal software solutions.",
+  keywords: ["Software Developer", "Web Developer", "React", "Next.js", "PWA", "Worcester MA", "Idong Essien", "Frontend Developer"],
+  authors: [{ name: "Idong Essien" }],
+  creator: "Idong Essien",
+  metadataBase: new URL("https://essien.dev"),
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://essien.dev",
+    title: "Idong Essien | Software & Web Developer",
+    description: "Portfolio of Idong Essien, a Software & Web Developer specializing in bespoke websites, Progressive Web Apps (PWAs), and internal software solutions.",
+    siteName: "Idong Essien Portfolio",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Idong Essien | Software & Web Developer",
+    description: "Portfolio of Idong Essien, a Software & Web Developer specializing in bespoke websites, Progressive Web Apps (PWAs), and internal software solutions.",
+    creator: "@idongcodes",
+  },
   icons: {
     icon: '/favicon.jpeg',
   },
+  alternates: {
+    canonical: "/",
+  }
 };
 
 export default function RootLayout({
