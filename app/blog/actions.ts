@@ -1,17 +1,18 @@
 "use server";
 
-import { Redis } from "@upstash/redis";
+import Redis from "ioredis";
+
+// Global cache for the redis client to prevent recreating it on every action
+let redisClient: Redis | null = null;
 
 const getRedisClient = () => {
-  const url = process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL;
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN;
+  if (redisClient) return redisClient;
   
-  if (!url || !token) return null;
+  const url = process.env.REDIS_URL;
+  if (!url) return null;
   
-  return new Redis({
-    url,
-    token,
-  });
+  redisClient = new Redis(url);
+  return redisClient;
 };
 
 export async function incrementViews(slug: string) {
@@ -20,7 +21,7 @@ export async function incrementViews(slug: string) {
     if (!redis) return;
     await redis.incr(`post:${slug}:views`);
   } catch (e) {
-    console.error("Upstash Redis Error:", e);
+    console.error("Redis Error:", e);
   }
 }
 
@@ -30,7 +31,7 @@ export async function incrementLikes(slug: string, initialLikes: number = 0) {
     if (!redis) return initialLikes + 1;
     
     // First check if it exists, if not initialize it with initialLikes + 1
-    const current = await redis.get<number>(`post:${slug}:likes`);
+    const current = await redis.get(`post:${slug}:likes`);
     if (current === null && initialLikes > 0) {
       await redis.set(`post:${slug}:likes`, initialLikes + 1);
       return initialLikes + 1;
@@ -39,7 +40,7 @@ export async function incrementLikes(slug: string, initialLikes: number = 0) {
     const newLikes = await redis.incr(`post:${slug}:likes`);
     return newLikes;
   } catch (e) {
-    console.error("Upstash Redis Error:", e);
+    console.error("Redis Error:", e);
     return initialLikes + 1;
   }
 }
@@ -50,7 +51,7 @@ export async function incrementShares(slug: string) {
     if (!redis) return;
     await redis.incr(`post:${slug}:shares`);
   } catch (e) {
-    console.error("Upstash Redis Error:", e);
+    console.error("Redis Error:", e);
   }
 }
 
@@ -61,11 +62,15 @@ export async function getPostStats(slug: string, initialViews = 0, initialLikes 
       return { views: initialViews, likes: initialLikes, shares: initialShares };
     }
 
-    const [views, likes, shares] = await Promise.all([
-      redis.get<number>(`post:${slug}:views`),
-      redis.get<number>(`post:${slug}:likes`),
-      redis.get<number>(`post:${slug}:shares`)
+    const [viewsStr, likesStr, sharesStr] = await Promise.all([
+      redis.get(`post:${slug}:views`),
+      redis.get(`post:${slug}:likes`),
+      redis.get(`post:${slug}:shares`)
     ]);
+
+    const views = viewsStr ? parseInt(viewsStr, 10) : null;
+    const likes = likesStr ? parseInt(likesStr, 10) : null;
+    const shares = sharesStr ? parseInt(sharesStr, 10) : null;
 
     // Initialize in KV if they don't exist yet
     if (views === null && initialViews > 0) await redis.set(`post:${slug}:views`, initialViews);
@@ -78,7 +83,7 @@ export async function getPostStats(slug: string, initialViews = 0, initialLikes 
       shares: shares ?? initialShares
     };
   } catch (e) {
-    console.error("Upstash Redis Error:", e);
+    console.error("Redis Error:", e);
     return {
       views: initialViews,
       likes: initialLikes,
