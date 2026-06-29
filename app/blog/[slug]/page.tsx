@@ -1,3 +1,4 @@
+export const revalidate = 60;
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
@@ -6,6 +7,8 @@ import {
 } from "react-icons/fa"; 
 import { blogPosts } from '../data';
 import ShareLikeButtons from './ShareLikeButtons';
+import { getPostStats } from '../actions';
+import ViewTracker from '../ViewTracker';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -47,8 +50,12 @@ export default async function BlogPostPage({ params }: Props) {
     notFound();
   }
 
+  // Fetch real stats from Vercel KV (falls back to initial values if KV not configured)
+  const stats = await getPostStats(post.id, post.initialViews, post.initialLikes, post.initialShares);
+
   return (
     <div className="min-h-screen w-full bg-black text-white pt-32 pb-20 px-4 md:px-8 flex flex-col items-center">
+      <ViewTracker slug={post.id} />
       
       <div className="w-full max-w-3xl mb-8">
         <Link 
@@ -76,13 +83,13 @@ export default async function BlogPostPage({ params }: Props) {
             <div className="w-full h-px bg-white/10 my-2 sm:hidden"></div>
             
             <span className="flex items-center gap-2 text-gray-400">
-               <FaEye /> {post.initialViews.toLocaleString()}
+               <FaEye /> {stats.views.toLocaleString()}
             </span>
             <span className="flex items-center gap-2 text-gray-400">
-               <FaThumbsUp /> {post.initialLikes.toLocaleString()}
+               <FaThumbsUp /> {stats.likes.toLocaleString()}
             </span>
             <span className="flex items-center gap-2 text-gray-400">
-               <FaShareAlt /> {post.initialShares.toLocaleString()}
+               <FaShareAlt /> {stats.shares.toLocaleString()}
             </span>
           </div>
         </header>
@@ -101,7 +108,7 @@ export default async function BlogPostPage({ params }: Props) {
             postId={post.id} 
             title={post.title} 
             headline={post.headline} 
-            initialLikes={post.initialLikes} 
+            initialLikes={stats.likes} 
           />
         </footer>
       </article>
