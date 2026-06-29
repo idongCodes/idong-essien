@@ -10,7 +10,7 @@ import BlogTypewriter from "@/components/BlogTypewriter";
 import FadeIn from "@/components/FadeIn";
 import { blogPosts } from "./data";
 
-export default function BlogList() {
+export default function BlogList({ initialStats }: { initialStats: Record<string, { views: number, likes: number, shares: number }> }) {
   const [showContent, setShowContent] = useState(false);
 
   return (
@@ -50,15 +50,15 @@ export default function BlogList() {
                         </div>
                         <div className="flex items-center gap-4">
                           <div className="flex items-center gap-2 text-gray-400 group-hover:text-white transition-colors">
-                            <FaEye /> {post.initialViews.toLocaleString()}
+                            <FaEye /> {initialStats[post.id]?.views.toLocaleString() || post.initialViews.toLocaleString()}
                           </div>
                           
                           <div className="flex items-center gap-2 text-gray-400 group-hover:text-white transition-colors">
-                            <FaThumbsUp /> {post.initialLikes.toLocaleString()}
+                            <FaThumbsUp /> {initialStats[post.id]?.likes.toLocaleString() || post.initialLikes.toLocaleString()}
                           </div>
 
                           <div className="flex items-center gap-2 text-gray-400 group-hover:text-white transition-colors">
-                            <FaShareAlt /> {post.initialShares.toLocaleString()}
+                            <FaShareAlt /> {initialStats[post.id]?.shares.toLocaleString() || post.initialShares.toLocaleString()}
                           </div>
                           
                           <div className="flex items-center gap-2">
