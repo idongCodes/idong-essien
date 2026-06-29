@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { incrementViews } from "../actions";
+import { incrementViews } from "./actions";
 
 export default function ViewTracker({ slug }: { slug: string }) {
   const hasTracked = useRef(false);
