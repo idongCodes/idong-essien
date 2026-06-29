@@ -8,9 +8,9 @@ export const blogPosts = [
     date: "Jan 5, 2026",
     author: "Essien, Idong",
     readTime: "5 min read",
-    initialViews: 127,
-    initialShares: 4,
-    initialLikes: 28,
+    initialViews: 0,
+    initialShares: 0,
+    initialLikes: 0,
     content: (
       <>
         <h4 className="text-xl font-bold text-white mt-8 mb-4">Let's Be Honest: We're All a Little Freaked Out</h4>
@@ -103,9 +103,9 @@ export const blogPosts = [
     date: "Dec 28, 2025",
     author: "Essien, Idong",
     readTime: "4 min read",
-    initialViews: 4231,
-    initialShares: 289,
-    initialLikes: 842,
+    initialViews: 0,
+    initialShares: 0,
+    initialLikes: 0,
     content: (
       <>
         <h4 className="text-xl font-bold text-white mt-8 mb-4">The Atmosphere: A Mix of Awe and Existential Dread</h4>
@@ -183,9 +183,9 @@ export const blogPosts = [
     date: "Jan 4, 2026",
     author: "Essien, Idong",
     readTime: "3 min read",
-    initialViews: 892,
-    initialShares: 18,
-    initialLikes: 94,
+    initialViews: 0,
+    initialShares: 0,
+    initialLikes: 0,
     content: (
       <>
         <h4 className="text-xl font-bold text-white mt-8 mb-4">The Vision: Why Build This?</h4>
