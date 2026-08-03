@@ -4,7 +4,7 @@ import Image from "next/image"
 import { useState } from "react"
 import { sendContactEmail } from "@/app/contact/actions"
 import { 
-  FaFacebook, FaInstagram, FaTumblr, FaLinkedin, 
+  FaFacebook, FaFacebookMessenger, FaInstagram, FaTumblr, FaLinkedin, 
   FaMastodon, FaSnapchatGhost, FaGithub, FaWhatsapp, FaMedium,
   FaTiktok, FaTwitch, FaDiscord
 } from "react-icons/fa"
@@ -17,6 +17,7 @@ export default function ContactSection() {
 
   const socialLinks = [
     { icon: <FaFacebook />, url: "https://www.facebook.com/idngcodes/", color: "hover:text-blue-500" },
+    { icon: <FaFacebookMessenger />, url: "https://m.me/idngcodes", color: "hover:text-[#0084FF]" },
     { icon: <FaInstagram />, url: "https://www.instagram.com/idongcodes/", color: "hover:text-pink-500" },
     { icon: <SiThreads />, url: "https://www.threads.com/@idongcodes", color: "hover:text-white" },
     { icon: <FaXTwitter />, url: "https://x.com/idongCodes", color: "hover:text-gray-400" },
@@ -32,6 +33,23 @@ export default function ContactSection() {
     { icon: <FaWhatsapp />, url: "https://wa.me/17743126471", color: "hover:text-green-500" },
     { icon: <SiHashnode />, url: "https://hashnode.com/@idongcodes", color: "hover:text-blue-600" },
     { icon: <FaMedium />, url: "https://medium.com/@idongcodes", color: "hover:text-white" },
+    { 
+      icon: (
+        <svg 
+          stroke="currentColor" 
+          fill="currentColor" 
+          strokeWidth="0" 
+          viewBox="0 0 45 63" 
+          height="1em" 
+          width="1em" 
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M 0 44.082 L 11.745 40.97 Q 12.948 45.618 16.227 48.149 Q 19.505 50.681 24.444 50.681 Q 28.054 50.681 30.046 49.166 A 5.035 5.035 0 0 0 32.038 44.912 L 32.038 44.622 Q 32.038 42.256 30.295 40.659 A 16.045 16.045 0 0 0 26.193 38.194 A 43.281 43.281 0 0 0 24.111 37.318 L 16.019 34.122 Q 3.445 29.184 3.445 17.605 L 3.445 17.439 A 16.324 16.324 0 0 1 5.997 8.33 Q 8.549 4.408 13.073 2.209 Q 17.596 0.009 23.614 0.009 A 24.267 24.267 0 0 1 34.995 2.489 A 18.078 18.078 0 0 1 37.08 3.765 Q 42.372 7.521 44.571 14.825 L 32.91 18.145 Q 30.959 11.588 23.614 11.588 Q 20.169 11.588 18.156 13.02 Q 16.144 14.451 16.144 16.9 L 16.144 17.149 A 4.471 4.471 0 0 0 17.575 20.51 A 13.811 13.811 0 0 0 21.483 22.851 A 34.488 34.488 0 0 0 22.535 23.291 L 30.627 26.486 A 29.305 29.305 0 0 1 38.97 31.29 A 17.323 17.323 0 0 1 41.334 33.749 Q 44.737 38.106 44.737 44.663 L 44.737 44.995 A 16.22 16.22 0 0 1 42.205 54.063 A 16.853 16.853 0 0 1 35.13 60.101 Q 30.586 62.259 24.485 62.259 A 27.976 27.976 0 0 1 13.239 60.081 Q 8.217 57.902 4.814 53.814 A 24.106 24.106 0 0 1 0 44.0 Z" />
+        </svg>
+      ),
+      url: "https://seenu.io/idongcodes",
+      color: "hover:text-[#FE6D98]" 
+    }
   ]
 
   async function handleSubmit(formData: FormData) {
