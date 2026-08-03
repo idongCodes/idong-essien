@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import TypewriterTitle from "./TypewriterTitle";
 import Link from "next/link";
 import { FaGithub, FaLinkedin, FaMedium } from "react-icons/fa6";
@@ -8,6 +8,27 @@ import { FaCommentDots, FaFileAlt } from "react-icons/fa";
 
 export default function HeroContent() {
   const [showContent, setShowContent] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
+  const tooltipRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!showTooltip) return;
+    const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
+      if (
+        buttonRef.current && !buttonRef.current.contains(e.target as Node) &&
+        tooltipRef.current && !tooltipRef.current.contains(e.target as Node)
+      ) {
+        setShowTooltip(false);
+      }
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    document.addEventListener("touchstart", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+      document.removeEventListener("touchstart", handleOutsideClick);
+    };
+  }, [showTooltip]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -79,13 +100,39 @@ export default function HeroContent() {
               <FaCommentDots />
             </a>
 
-            <Link 
-              href="/resume"
-              className="text-2xl hover:text-sky-blue hover:scale-110 transition-transform duration-300"
-              title="View Resume"
-            >
-              <FaFileAlt />
-            </Link>
+            <div className="relative flex items-center justify-center">
+              <button 
+                ref={buttonRef}
+                className="text-2xl hover:text-sky-blue hover:scale-110 transition-transform duration-300 focus:outline-none focus:text-sky-blue cursor-pointer"
+                onMouseEnter={() => setShowTooltip(true)}
+                onMouseLeave={() => setShowTooltip(false)}
+                onTouchStart={(e) => {
+                  e.preventDefault();
+                  setShowTooltip(!showTooltip);
+                }}
+                onFocus={() => setShowTooltip(true)}
+                onBlur={() => setShowTooltip(false)}
+                aria-describedby="resume-tooltip"
+              >
+                <FaFileAlt />
+              </button>
+              
+              <div
+                id="resume-tooltip"
+                ref={tooltipRef}
+                className={`absolute bottom-full mb-3 flex flex-col items-center z-50 pointer-events-none transition-all duration-300 origin-bottom ${
+                  showTooltip 
+                    ? "opacity-100 translate-y-0 scale-100" 
+                    : "opacity-0 translate-y-2 scale-95"
+                }`}
+                role="tooltip"
+              >
+                <div className="bg-zinc-900/90 backdrop-blur-md text-white text-xs font-medium px-3 py-2 rounded-lg shadow-[0_0_15px_rgba(135,206,235,0.15)] border border-sky-blue/20 whitespace-nowrap">
+                  Resume available upon request
+                </div>
+                <div className="w-2.5 h-2.5 bg-zinc-900/90 border-r border-b border-sky-blue/20 rotate-45 -mt-1.5 backdrop-blur-md"></div>
+              </div>
+            </div>
             
           </div>
         </div>
