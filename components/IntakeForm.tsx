@@ -4,10 +4,12 @@ import { useState } from "react";
 import { FaCheckCircle, FaSpinner, FaArrowLeft } from "react-icons/fa";
 import { submitIntakeForm } from "@/app/actions/submitIntake";
 import Link from "next/link";
+import Turnstile from "./Turnstile";
 
 export default function IntakeForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isPending, setIsPending] = useState(false);
+  const [formStartedAt] = useState(() => Date.now().toString());
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -170,6 +172,17 @@ export default function IntakeForm() {
             </label>
           </div>
         </div>
+
+        {/* Anti-spam: honeypot field (invisible to humans, bots fill it),
+            a render timestamp (bots submit instantly), and Turnstile. */}
+        <div className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+          <label>
+            Leave this field empty
+            <input name="websiteUrl" type="text" tabIndex={-1} autoComplete="off" />
+          </label>
+        </div>
+        <input type="hidden" name="formStartedAt" value={formStartedAt} />
+        <Turnstile />
 
         <div className="pt-6 border-t border-white/10">
           <button disabled={isPending} type="submit" className="w-full bg-sky-blue text-black font-bold text-lg py-4 rounded-xl hover:bg-sky-400 hover:scale-[1.01] transition-all shadow-[0_0_20px_rgba(135,206,235,0.2)] disabled:opacity-70 disabled:hover:scale-100 flex items-center justify-center gap-2">
