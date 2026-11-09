@@ -1,5 +1,7 @@
 "use server";
 
+import { headers } from "next/headers";
+
 export async function submitIntakeForm(formData: FormData) {
   try {
     // --- Anti-spam checks (run before anything is emailed) ---
@@ -19,21 +21,54 @@ export async function submitIntakeForm(formData: FormData) {
       return { success: true };
     }
 
-    // 3. Cloudflare Turnstile: active only when TURNSTILE_SECRET_KEY
-    //    is set in the environment (Vercel). Until then, checks 1-2 apply.
-    const turnstileSecret = process.env.TURNSTILE_SECRET_KEY;
+    // 3. Cloudflare Turnstile: canonical siteverify, active only when
+    //    TURNSTILE_SECRET (or TURNSTILE_SECRET_KEY) is set in Vercel.
+    //    Until then, checks 1-2 above still apply.
+    const turnstileSecret = process.env.TURNSTILE_SECRET ?? process.env.TURNSTILE_SECRET_KEY;
     if (turnstileSecret) {
-      const token = formData.get("cf-turnstile-response") as string;
-      if (!token) {
+      const token = formData.get("cf-turnstile-response");
+
+      if (typeof token !== "string" || token.length === 0 || token.length > 2048) {
         return { success: false, error: "Verification failed. Please try again." };
       }
-      const verifyRes = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({ secret: turnstileSecret, response: token }),
-      });
-      const verifyData = await verifyRes.json();
-      if (!verifyData.success) {
+
+      // Hostnames allowed to solve the widget. TURNSTILE_HOSTNAMES in the
+      // environment (comma-separated) overrides these production defaults.
+      // localhost is deliberately not included (production backend).
+      const expectedHostnames = new Set(
+        (process.env.TURNSTILE_HOSTNAMES ?? "essien.dev,www.essien.dev")
+          .split(",")
+          .map((h) => h.trim())
+          .filter(Boolean)
+      );
+
+      const headerStore = await headers();
+      const clientIp = headerStore.get("x-forwarded-for")?.split(",")[0]?.trim();
+
+      let result: { success?: boolean; action?: string; hostname?: string };
+      try {
+        const verifyRes = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          signal: AbortSignal.timeout(10_000),
+          body: new URLSearchParams({
+            secret: turnstileSecret,
+            response: token,
+            ...(clientIp ? { remoteip: clientIp } : {}),
+          }),
+        });
+        if (!verifyRes.ok) throw new Error(`siteverify ${verifyRes.status}`);
+        result = await verifyRes.json();
+      } catch {
+        return { success: false, error: "Verification failed. Please try again." };
+      }
+
+      if (
+        result.success !== true ||
+        result.action !== "intake" ||
+        !result.hostname ||
+        !expectedHostnames.has(result.hostname)
+      ) {
         return { success: false, error: "Verification failed. Please try again." };
       }
     }
