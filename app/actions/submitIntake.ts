@@ -2,6 +2,42 @@
 
 export async function submitIntakeForm(formData: FormData) {
   try {
+    // --- Anti-spam checks (run before anything is emailed) ---
+
+    // 1. Honeypot: the form hides a "websiteUrl" field from humans.
+    //    Any submission with it filled in came from a bot.
+    //    Return fake success so bots don't learn and adapt.
+    const honeypot = formData.get("websiteUrl") as string;
+    if (honeypot) {
+      return { success: true };
+    }
+
+    // 2. Time trap: a human needs far longer than 3 seconds to
+    //    complete this form. Instant submissions are bots.
+    const startedAt = Number(formData.get("formStartedAt"));
+    if (startedAt && Date.now() - startedAt < 3000) {
+      return { success: true };
+    }
+
+    // 3. Cloudflare Turnstile: active only when TURNSTILE_SECRET_KEY
+    //    is set in the environment (Vercel). Until then, checks 1-2 apply.
+    const turnstileSecret = process.env.TURNSTILE_SECRET_KEY;
+    if (turnstileSecret) {
+      const token = formData.get("cf-turnstile-response") as string;
+      if (!token) {
+        return { success: false, error: "Verification failed. Please try again." };
+      }
+      const verifyRes = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({ secret: turnstileSecret, response: token }),
+      });
+      const verifyData = await verifyRes.json();
+      if (!verifyData.success) {
+        return { success: false, error: "Verification failed. Please try again." };
+      }
+    }
+
     const rawData = {
       fullName: formData.get("fullName") as string,
       email: formData.get("email") as string,
